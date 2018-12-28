@@ -15,7 +15,7 @@ public class ConferenceRoomService {
 
     public String save(ConferenceRoom conferenceRoom) {
         String check = conferenceRoomRepository.checkIfIdOrNameExists(conferenceRoom.getId(), conferenceRoom.getName());
-        if (check.equals("ok")) {
+        if (check.equals("pusty")) {
             conferenceRoomRepository.save(conferenceRoom);
             return "ok";
         }
