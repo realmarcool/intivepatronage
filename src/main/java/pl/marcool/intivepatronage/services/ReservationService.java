@@ -21,7 +21,11 @@ public class ReservationService {
 
     public String save(Reservation reservation) {
         String check = reservationRepository.findById(reservation.getId()).toString();
-        if (check.equals("ok")) {
+        if(!organizationRepository.findById(reservation.getOrganizationId()).toString()
+                .equals("pusty")) return "Brak organizacji o nazwie '" + reservation.getOrganizationId();
+        if(!conferenceRoomRepository.findById(reservation.getConferenceRoomId()).toString()
+                .equals("pusty")) return "Brak sali konferencyjnej o id '" + reservation.getConferenceRoomId();
+        if (check.equals("pusty")) {
             reservationRepository.save(reservation);
             return "ok";
         }
