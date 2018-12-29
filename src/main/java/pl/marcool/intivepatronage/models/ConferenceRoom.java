@@ -27,6 +27,7 @@ public class ConferenceRoom {
     private boolean availability;
     private int seating;
     private int standingPlace;
+    private int lyingPlace;
     private int hammock;
     private String projector;
     private boolean phone;
@@ -51,6 +52,7 @@ public class ConferenceRoom {
                 ", availability=" + availability +
                 ", seating=" + seating +
                 ", standingPlace=" + standingPlace +
+                ", lyingPlace=" + lyingPlace +
                 ", hammock=" + hammock +
                 ", projector='" + projector + '\'' +
                 ", phone=" + phone +
@@ -106,6 +108,14 @@ public class ConferenceRoom {
 
     public void setStandingPlace(int standingPlace) {
         this.standingPlace = standingPlace;
+    }
+
+    public int getLyingPlace() {
+        return lyingPlace;
+    }
+
+    public void setLyingPlace(int lyingPlace) {
+        this.lyingPlace = lyingPlace;
     }
 
     public int getHammock() {

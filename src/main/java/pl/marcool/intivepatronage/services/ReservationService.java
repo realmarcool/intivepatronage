@@ -20,10 +20,10 @@ public class ReservationService {
     private ConferenceRoomRepository conferenceRoomRepository;
 
     public String save(Reservation reservation) {
-        String check = reservationRepository.findById(reservation.getId()).toString();
-        if(!organizationRepository.findById(reservation.getOrganizationId()).toString()
+        String check = reservationRepository.findById(reservation.getId()).getId();
+        if(organizationRepository.findById(reservation.getOrganizationId()).getName()
                 .equals("pusty")) return "Brak organizacji o nazwie '" + reservation.getOrganizationId();
-        if(!conferenceRoomRepository.findById(reservation.getConferenceRoomId()).toString()
+        if(conferenceRoomRepository.findById(reservation.getConferenceRoomId()).getId()
                 .equals("pusty")) return "Brak sali konferencyjnej o id '" + reservation.getConferenceRoomId();
         if (check.equals("pusty")) {
             reservationRepository.save(reservation);

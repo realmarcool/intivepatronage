@@ -3,14 +3,12 @@ package pl.marcool.intivepatronage.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import pl.marcool.intivepatronage.models.Organization;
 import pl.marcool.intivepatronage.services.CheckingService;
 import pl.marcool.intivepatronage.services.OrganizationService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class OrganizationController {
@@ -51,11 +49,6 @@ public class OrganizationController {
                           @RequestBody @Valid Organization organization,
                           BindingResult bindingResult) {
         String checkBR = checkingService.checkBindingResult(bindingResult);
-        String checkOldId = findById(id).getName();
-        String checkNewId = findById(organization.getName()).getName();
-        System.out.println("Stare id, wynik: " + checkOldId );
-        System.out.println("Nowe id, wynik: " + checkNewId);
-
         if (!findById(id).getName().equals("pusty")) { //Sprawdzenie czy podane ID istnieje
             if(findById(organization.getName()).getName().equals("pusty")) { //Sprawdzenie czy nowe id z updatowenego confrenceRoom już istnieje w bazie
                 if (checkBR.equals("ok")) {  //Sprawdzenie BindingResults
@@ -92,4 +85,3 @@ public class OrganizationController {
         return organizationService.findById(id);
     }
 }
-

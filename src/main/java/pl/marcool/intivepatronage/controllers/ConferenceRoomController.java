@@ -38,6 +38,7 @@ public class ConferenceRoomController {
 
         if(checkBR.equals("ok")){
             String addConferenceRoom = conferenceRoomService.save(conferenceRoom);
+            System.out.println(addConferenceRoom);
             if (addConferenceRoom.equals("ok")) return ResponseEntity.ok("Pomyślnie dodano:\n" + conferenceRoom);
             else return ResponseEntity.badRequest().body(addConferenceRoom);
         }
@@ -49,8 +50,8 @@ public class ConferenceRoomController {
                           @RequestBody @Valid ConferenceRoom conferenceRoom,
                           BindingResult bindingResult) {
         String checkBR = checkingService.checkBindingResult(bindingResult);
-        if (!findById(id).equals("pusty")) { //Sprawdzenie czy podane ID istnieje
-            if(findById(conferenceRoom.getId()).equals("pusty")) { //Sprawdzenie czy nowe id z updatowenego confrenceRoom już istnieje w bazie
+        if (!findById(id).getName().equals("pusty")) { //Sprawdzenie czy podane ID istnieje
+            if(findById(conferenceRoom.getId()).getName().equals("pusty")) { //Sprawdzenie czy nowe id z updatowenego confrenceRoom już istnieje w bazie
                 if (checkBR.equals("ok")) {  //Sprawdzenie BindingResults
                     //Jeżeli 1.poprawne parametry, 2.stare id znalezione, 3.nowe id nie znalezione
                     conferenceRoomService.update(id, conferenceRoom);

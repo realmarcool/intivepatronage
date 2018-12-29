@@ -15,7 +15,7 @@ public class ConferenceRoomService {
 
     public String save(ConferenceRoom conferenceRoom) {
         String check = conferenceRoomRepository.checkIfIdOrNameExists(conferenceRoom.getId(), conferenceRoom.getName());
-        if (check.equals("pusty")) {
+        if (check.equals("ok")) {
             conferenceRoomRepository.save(conferenceRoom);
             return "ok";
         }
@@ -26,8 +26,8 @@ public class ConferenceRoomService {
         return conferenceRoomRepository.findAll();
     }
 
-    public ConferenceRoom findById(String Id){
-        return conferenceRoomRepository.findById(Id);
+    public ConferenceRoom findById(String id){
+        return conferenceRoomRepository.findById(id);
     }
 
     public void update(String id, ConferenceRoom conferenceRoom){
