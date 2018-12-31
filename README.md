@@ -103,7 +103,7 @@ ODCZYT REZERWACJI PO ID:
 curl -X GET 'http://localhost:8080/reservation/id?id=Rezerwacja1'
 
 
-UPDATE ORGANIZACJI PO NAZWIE:
+UPDATE REZERWACJI PO NAZWIE:
 
 curl -X PUT 'http://localhost:8080/reservation/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d '{ 
 "id":"Rezerwacja2","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
