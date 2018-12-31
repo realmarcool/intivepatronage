@@ -19,7 +19,7 @@ public class OrganizationService {
             organizationRepository.save(organization);
             return "ok";
         }
-        return "Uwaga, organizacja '" + check.getName() + "' już istnieje";
+        return "UWAGA! BŁĄD:\nOrganizacja '" + check.getName() + "' już istnieje";
     }
 
     public List getAll() {
@@ -39,9 +39,9 @@ public class OrganizationService {
         String errorMessage = "";
 
         //Jeżeli nowa nazwa jest już używana
-        if (!checkNewName.equals("pusty")&!checkNewName.equals(checkOldName)) errorMessage = "Nazwa: '" + checkNewName + "' jest już zajęta!";
+        if (!checkNewName.equals("pusty")&!checkNewName.equals(checkOldName)) errorMessage = "UWAGA! BŁĄD:\nNazwa: '" + checkNewName + "' jest już zajęta!";
         //Jeżeli nieznaleziono organizacji
-        if (checkOldName.equals("pusty")) errorMessage = "Nie znaleziono organizacji o nazwie: '" + id + "'";
+        if (checkOldName.equals("pusty")) errorMessage = "UWAGA! BŁĄD:\nNie znaleziono organizacji o nazwie: '" + id + "'";
         if ((checkNewName.equals("pusty")||checkNewName.equals(checkOldName)) & !checkOldName.equals("pusty")) {
             organizationRepository.update(id, organization);
             return "ok";

@@ -15,7 +15,7 @@ public class CheckingService {
             StringBuilder sb = new StringBuilder();
             list.stream().forEach(
                     t -> sb.append(t.getDefaultMessage()).append(", \n"));
-            return "Uwaga, pojawiły się następujące błędy:\n" + sb;
+            return "UWAGA! BŁĄD:\n" + sb;
         }
         return "ok";
     }

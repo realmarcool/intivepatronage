@@ -19,8 +19,8 @@ public class ConferenceRoomService {
         //Sprawdzenie czy Id jest już użyte
         String checkIfIdExist = findById(conferenceRoom.getId()).getId();
         String errorMessage = "";
-        if(!checkIfIdExist.equals("pusty")) errorMessage = "Id: " + conferenceRoom.getId() + "' jest zajęte";
-        if(!checkIfNameExist.equals("pusty")) errorMessage = "Nazwa: '" + conferenceRoom.getName() + "' jest zajęta";
+        if(!checkIfIdExist.equals("pusty")) errorMessage = "UWAGA! BŁĄD:\nId: " + conferenceRoom.getId() + "' jest zajęte";
+        if(!checkIfNameExist.equals("pusty")) errorMessage = "UWAGA! BŁĄD:\nNazwa: '" + conferenceRoom.getName() + "' jest zajęta";
         if (checkIfIdExist.equals("pusty")&checkIfNameExist.equals("pusty")) {
             conferenceRoomRepository.save(conferenceRoom);
             return "ok";
@@ -52,9 +52,9 @@ public class ConferenceRoomService {
             if (!checkNewName.getId().equals(id)) checkValidityOfName = true;}
         String errorMessage = "";
 
-        if (checkValidityOfId) errorMessage = "Id: '" + checkNewId + "' jest już zajęte!";
-        if (checkValidityOfName) errorMessage = "Nazwa: '" + conferenceRoom.getName() + "' jest już zajęta!";
-        if (checkOldId.equals("pusty")) return "Nie znaleziono Id: '" + checkOldId;
+        if (checkValidityOfId) errorMessage = "UWAGA! BŁĄD:\nId: '" + checkNewId + "' jest już zajęte!";
+        if (checkValidityOfName) errorMessage = "UWAGA! BŁĄD:\nNazwa: '" + conferenceRoom.getName() + "' jest już zajęta!";
+        if (checkOldId.equals("pusty")) return "UWAGA! BŁĄD:\nNie znaleziono Id: '" + checkOldId;
         if (!checkValidityOfId & !checkValidityOfName) {
             conferenceRoomRepository.update(id, conferenceRoom);
             return "ok";
