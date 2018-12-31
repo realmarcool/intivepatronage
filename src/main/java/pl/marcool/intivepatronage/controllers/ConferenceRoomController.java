@@ -24,8 +24,8 @@ public class ConferenceRoomController {
     }
 
     @GetMapping("/conferenceroom/id")
-    ResponseEntity getById(@RequestParam String id){
-        if(!findById(id).getName().equals("pusty")){
+    ResponseEntity getById(@RequestParam String id) {
+        if (!conferenceRoomService.findById(id).getId().equals("pusty")) {
             return ResponseEntity.ok().body(conferenceRoomService.findById(id));
         }
         return ResponseEntity.badRequest().body("Nie znaleziono rekordu o ID '" + id + "'");
@@ -34,42 +34,30 @@ public class ConferenceRoomController {
     @PostMapping("/conferenceroom")
     ResponseEntity save(@RequestBody @Valid ConferenceRoom conferenceRoom, BindingResult bindingResult) {
 
-        String checkBR = checkingService.checkBindingResult(bindingResult);
-
-        if(checkBR.equals("ok")){
+        String checkBR = checkingService.checkBindingResult(bindingResult); //Sprawdzenie poprawności parametrów
+        if (checkBR.equals("ok")) {
             String addConferenceRoom = conferenceRoomService.save(conferenceRoom);
-            System.out.println(addConferenceRoom);
             if (addConferenceRoom.equals("ok")) return ResponseEntity.ok("Pomyślnie dodano:\n" + conferenceRoom);
             else return ResponseEntity.badRequest().body(addConferenceRoom);
-        }
-        else return ResponseEntity.badRequest().body(checkBR);
+        } else return ResponseEntity.badRequest().body(checkBR);
     }
 
     @PutMapping("/conferenceroom/update")
     ResponseEntity update(@RequestParam String id,
                           @RequestBody @Valid ConferenceRoom conferenceRoom,
                           BindingResult bindingResult) {
-        String checkBR = checkingService.checkBindingResult(bindingResult);
-        if (!findById(id).getName().equals("pusty")) { //Sprawdzenie czy podane ID istnieje
-            if(findById(conferenceRoom.getId()).getName().equals("pusty")) { //Sprawdzenie czy nowe id z updatowenego confrenceRoom już istnieje w bazie
-                if (checkBR.equals("ok")) {  //Sprawdzenie BindingResults
-                    //Jeżeli 1.poprawne parametry, 2.stare id znalezione, 3.nowe id nie znalezione
-                    conferenceRoomService.update(id, conferenceRoom);
-                    return ResponseEntity.ok().body("Pomyślny update:\n" + conferenceRoom);
-                }
-                // Jeżeli błędne parametry
-                else return ResponseEntity.badRequest().body(checkBR);
-            }
-            // Jeżeli nowe id już istnieje w bazie
-            else return ResponseEntity.badRequest().body("Nowe id '" + conferenceRoom.getId() + "' już istnieje ww bazie");
-        }
-        // Jeżeli podane id nie istnieje w bazie
-        return ResponseEntity.badRequest().body("Nie znaleziono id '" + id + "' w bazie");
+
+        String checkBR = checkingService.checkBindingResult(bindingResult); //Sprawdzenie poprawności parametrów
+        if (checkBR.equals("ok")) {
+            String reply = conferenceRoomService.update(id, conferenceRoom);
+            if (reply.equals("ok")) return ResponseEntity.ok().body("Pomyślny update:\n" + conferenceRoom);
+            else return ResponseEntity.badRequest().body(reply);
+        } else return ResponseEntity.badRequest().body(checkBR);
     }
 
     @DeleteMapping("/conferenceroom/delete/id")
-    ResponseEntity delete(@RequestParam String id){
-        if(!findById(id).getName().equals("pusty")){
+    ResponseEntity delete(@RequestParam String id) {
+        if (!conferenceRoomService.findById(id).getId().equals("pusty")) {
             conferenceRoomService.deleteById(id);
             return ResponseEntity.ok().body("Pomyślnie skasowano rekord o ID '" + id + "'");
         }
@@ -77,12 +65,8 @@ public class ConferenceRoomController {
     }
 
     @DeleteMapping("/conferenceroom/delete/all")
-    ResponseEntity deleteAll(){
+    ResponseEntity deleteAll() {
         conferenceRoomService.deleteAll();
         return ResponseEntity.ok().body("Skasowano całą bazę Conference Room");
-    }
-
-    ConferenceRoom findById(String id){
-        return conferenceRoomService.findById(id);
     }
 }

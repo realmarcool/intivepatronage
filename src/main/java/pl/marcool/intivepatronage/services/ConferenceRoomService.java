@@ -14,12 +14,18 @@ public class ConferenceRoomService {
     private ConferenceRoomRepository conferenceRoomRepository;
 
     public String save(ConferenceRoom conferenceRoom) {
-        String check = conferenceRoomRepository.checkIfIdOrNameExists(conferenceRoom.getId(), conferenceRoom.getName());
-        if (check.equals("ok")) {
+        //Sprawdzenie czy nazwa jest już użyta
+        String checkIfNameExist = findByName(conferenceRoom.getName()).getName();
+        //Sprawdzenie czy Id jest już użyte
+        String checkIfIdExist = findById(conferenceRoom.getId()).getId();
+        String errorMessage = "";
+        if(!checkIfIdExist.equals("pusty")) errorMessage = "Id: " + conferenceRoom.getId() + "' jest zajęte";
+        if(!checkIfNameExist.equals("pusty")) errorMessage = "Nazwa: '" + conferenceRoom.getName() + "' jest zajęta";
+        if (checkIfIdExist.equals("pusty")&checkIfNameExist.equals("pusty")) {
             conferenceRoomRepository.save(conferenceRoom);
             return "ok";
         }
-        return "Uwaga, pole '" + check + "' już istnieje";
+        return errorMessage;
     }
 
     public List getAll() {
@@ -30,8 +36,30 @@ public class ConferenceRoomService {
         return conferenceRoomRepository.findById(id);
     }
 
-    public void update(String id, ConferenceRoom conferenceRoom){
-        conferenceRoomRepository.update(id, conferenceRoom);
+    public String update(String id, ConferenceRoom conferenceRoom) {
+
+        //Wyszukaj stare Id
+        String checkOldId = findById(id).getId();
+        //Wyszukaj nowe Id
+        String checkNewId = findById(conferenceRoom.getId()).getId();
+        //Wyszukaj nową nazwę
+        ConferenceRoom checkNewName = findByName(conferenceRoom.getName());
+        //Ustaw TRUE jeżeli nowe Id jest już używane przez inną salę konferencyjną
+        boolean checkValidityOfId = (!checkNewId.equals("pusty"))&(!checkOldId.equals(checkNewId));
+        boolean checkValidityOfName = false;
+        //Ustaw TRUE jeżeli nowa nazwa jest już używana przez inną salę konferencyjną
+        if (!checkNewName.getName().equals("pusty")) {
+            if (!checkNewName.getId().equals(id)) checkValidityOfName = true;}
+        String errorMessage = "";
+
+        if (checkValidityOfId) errorMessage = "Id: '" + checkNewId + "' jest już zajęte!";
+        if (checkValidityOfName) errorMessage = "Nazwa: '" + conferenceRoom.getName() + "' jest już zajęta!";
+        if (checkOldId.equals("pusty")) return "Nie znaleziono Id: '" + checkOldId;
+        if (!checkValidityOfId & !checkValidityOfName) {
+            conferenceRoomRepository.update(id, conferenceRoom);
+            return "ok";
+        }
+        else return errorMessage;
     }
 
     public void deleteById(String id){
@@ -41,4 +69,9 @@ public class ConferenceRoomService {
     public void deleteAll(){
         conferenceRoomRepository.deleteAll();
     }
+
+    public ConferenceRoom findByName(String name){
+        return conferenceRoomRepository.findByName(name);
+    }
+
 }

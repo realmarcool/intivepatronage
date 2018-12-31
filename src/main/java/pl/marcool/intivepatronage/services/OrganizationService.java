@@ -30,8 +30,22 @@ public class OrganizationService {
         return organizationRepository.findById(id);
     }
 
-    public void update(String id, Organization organization){
-        organizationRepository.update(id, organization);
+    public String update(String id, Organization organization) {
+
+        //Czy stara nazwa istnieje
+        String checkOldName = findById(id).getName();
+        //Czy nowa nazwa istnieje
+        String checkNewName = findById(organization.getName()).getName();
+        String errorMessage = "";
+
+        //Jeżeli nowa nazwa jest już używana
+        if (!checkNewName.equals("pusty")&!checkNewName.equals(checkOldName)) errorMessage = "Nazwa: '" + checkNewName + "' jest już zajęta!";
+        //Jeżeli nieznaleziono organizacji
+        if (checkOldName.equals("pusty")) errorMessage = "Nie znaleziono organizacji o nazwie: '" + id + "'";
+        if ((checkNewName.equals("pusty")||checkNewName.equals(checkOldName)) & !checkOldName.equals("pusty")) {
+            organizationRepository.update(id, organization);
+            return "ok";
+        } else return errorMessage;
     }
 
     public void deleteById(String id){

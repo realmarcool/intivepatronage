@@ -25,7 +25,7 @@ public class OrganizationController {
 
     @GetMapping("/organization/name")
     ResponseEntity getById(@RequestParam String id){
-        if(!findById(id).getName().equals("pusty")){
+        if(!organizationService.findById(id).getName().equals("pusty")){
             return ResponseEntity.ok().body(organizationService.findById(id));
         }
         return ResponseEntity.badRequest().body("Nie znaleziono organizacji o nazwie '" + id + "'");
@@ -34,7 +34,7 @@ public class OrganizationController {
     @PostMapping("/organization")
     ResponseEntity save(@RequestBody @Valid Organization organization, BindingResult bindingResult) {
 
-        String checkOrg = checkingService.checkBindingResult(bindingResult);
+        String checkOrg = checkingService.checkBindingResult(bindingResult); //Sprawdzenie poprawności parametrów
 
         if(checkOrg.equals("ok")){
             String addOrganization = organizationService.save(organization);
@@ -48,27 +48,18 @@ public class OrganizationController {
     ResponseEntity update(@RequestParam String id,
                           @RequestBody @Valid Organization organization,
                           BindingResult bindingResult) {
-        String checkBR = checkingService.checkBindingResult(bindingResult);
-        if (!findById(id).getName().equals("pusty")) { //Sprawdzenie czy podane ID istnieje
-            if(findById(organization.getName()).getName().equals("pusty")) { //Sprawdzenie czy nowe id z updatowenego confrenceRoom już istnieje w bazie
-                if (checkBR.equals("ok")) {  //Sprawdzenie BindingResults
-                    //Jeżeli 1.poprawne parametry, 2.stare id znalezione, 3.nowe id nie znalezione
-                    organizationService.update(id, organization);
-                    return ResponseEntity.ok().body("Pomyślny update:\n" + organization);
-                }
-                // Jeżeli błędne parametry
-                else return ResponseEntity.badRequest().body(checkBR);
-            }
-            // Jeżeli nowe id już istnieje w bazie
-            else return ResponseEntity.badRequest().body("Nowe id '" + organization.getName() + "' już istnieje ww bazie");
-        }
-        // Jeżeli podane id nie istnieje w bazie
-        return ResponseEntity.badRequest().body("Nie znaleziono id '" + id + "' w bazie");
+
+        String checkBR = checkingService.checkBindingResult(bindingResult); //Sprawdzenie poprawności parametrów
+        if (checkBR.equals("ok")){
+            String reply = organizationService.update(id, organization);
+            if(reply.equals("ok")) return ResponseEntity.ok("Pomyślny update:\n" + organization);
+            else return ResponseEntity.badRequest().body(reply);
+        }else return ResponseEntity.badRequest().body(checkBR);
     }
 
     @DeleteMapping("/organization/delete/name")
     ResponseEntity delete(@RequestParam String id){
-        if(!findById(id).getName().equals("pusty")){
+        if(!organizationService.findById(id).getName().equals("pusty")){
             organizationService.deleteById(id);
             return ResponseEntity.ok().body("Pomyślnie skasowano organizację o nazwie '" + id + "'");
         }
@@ -79,9 +70,5 @@ public class OrganizationController {
     ResponseEntity deleteAll(){
         organizationService.deleteAll();
         return ResponseEntity.ok().body("Skasowano całą bazę Organizacje");
-    }
-
-    Organization findById(String id){
-        return organizationService.findById(id);
     }
 }

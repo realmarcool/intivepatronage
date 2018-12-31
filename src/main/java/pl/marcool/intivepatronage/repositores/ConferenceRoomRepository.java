@@ -23,17 +23,18 @@ public class ConferenceRoomRepository {
 
     public ConferenceRoom findById(String id){
         ConferenceRoom empty = new ConferenceRoom();
-        empty.setName("pusty");
+        empty.setId("pusty");
         if (conferenceRoomList.containsKey(id)) return conferenceRoomList.get(id);
         return empty;
     }
 
-    public String checkIfIdOrNameExists(String id, String name){
-        for(ConferenceRoom checkName: new ArrayList<>(conferenceRoomList.values())){
-            if(checkName.getName().equals(name)) return "name";
+    public ConferenceRoom findByName(String name){
+        ConferenceRoom empty = new ConferenceRoom();
+        empty.setName("pusty");
+        for(ConferenceRoom checkName: conferenceRoomList.values()){
+            if(checkName.getName().equals(name)) return checkName;
         }
-        if(conferenceRoomList.containsKey(id)) return "id";
-        return "ok";
+        return empty;
     }
 
     public void update(String id, ConferenceRoom conferenceRoom){
