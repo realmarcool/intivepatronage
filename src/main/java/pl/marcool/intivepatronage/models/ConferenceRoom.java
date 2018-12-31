@@ -1,7 +1,6 @@
 package pl.marcool.intivepatronage.models;
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,6 @@ public class ConferenceRoom {
     @NotNull(message = "Musisz podać nazwę sali")
     private String name;
 
-    @Id
     @NotBlank(message = "Identyfikator nie może składać się z samych białych znaków")
     @Size(min = 2, max = 20, message = "Identyfikator musi mieć długość od 2 do 20")
     @NotNull(message = "Musisz podać ID sali")
