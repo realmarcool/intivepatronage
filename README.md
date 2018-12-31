@@ -14,15 +14,15 @@ Jak zbudować i uruchomić aplikację:
 
 3. W katalogu aplikacji wpisujemy polecenie:
 
-./gradlew bootJar (pod Linuxem)
+./gradlew bootJar    (pod Linuxem)
 
-gradlew bootJar (pod Windowsem)
+gradlew bootJar    (pod Windowsem)
 
 4. Aplikacja zostanie zbudowana w katalogu build/libs
 
 5. Uruchamiamy poleceniem:
 
-java -jar intivepatronage-0.0.1-SNAPSHOT.jar (proszę pamiętać, że port 8080 na localhost musi być wolny)
+java -jar intivepatronage-0.0.1-SNAPSHOT.jar    (proszę pamiętać, że port 8080 na localhost musi być wolny)
 
 ******************************************************************
 
