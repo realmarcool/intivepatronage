@@ -48,8 +48,7 @@ curl -X POST  http://localhost:8080/organization -H 'Content-Type: application/j
 Get /organization – odczyt wszystkich organizacji
 curl -X GET http://localhost:8080/organization
 
-Get /organization/name – odczyt organizacji po nazwie:
-
+Get /organization/name – odczyt organizacji po nazwie
 curl -X GET 'http://localhost:8080/organization/name?id=Organizacja1'
 
 Put /organization/update – update organizacji po nazwie
@@ -65,7 +64,7 @@ curl -X DELETE http://localhost:8080/organization/delete/all
 CRUD – Rezerwacja
 
 Post /reservation – zapisanie rezerwacji
-curl -X POST http://localhost:8080/reservation -H 'Content-Type: application/json' -d '{
+curl -X POST http://localhost:8080/reservation -H 'Content-Type: application/json' -d '{ 
 "id":"Rezerwacja1","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
 
 Get /reservation – odczyt wszystkich organizacji
