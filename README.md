@@ -50,8 +50,7 @@ SKASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
 curl -X DELETE http://localhost:8080/conferenceroom/delete/all
 
-
-
+******************************************************************
 
 CRUD – ORGANIZACJA
 
@@ -84,7 +83,7 @@ KASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
 curl -X DELETE http://localhost:8080/organization/delete/all
 
-
+******************************************************************
 
 CRUD – REZERWACJA
 
@@ -118,5 +117,4 @@ curl -X DELETE 'http://localhost:8080/reservation/delete/id?id=Rezerwacja2'
 SKASOWANIE WSZYSTKICH REZERWACJI:
 
 curl -X DELETE http://localhost:8080/reservation/delete/all
-
 
