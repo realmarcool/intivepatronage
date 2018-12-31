@@ -20,8 +20,11 @@ gradlew bootJar (pod Windowsem)
 
 4. Aplikacja zostanie zbudowana w katalogu build/libs
 
-5. Uruchamiamy poleceniem java -jar intivepatronage-0.0.1-SNAPSHOT.jar (proszę pamiętać, że port 8080 na localhost musi być wolny)
+5. Uruchamiamy poleceniem:
 
+java -jar intivepatronage-0.0.1-SNAPSHOT.jar (proszę pamiętać, że port 8080 na localhost musi być wolny)
+
+******************************************************************
 
 Lista poleceń CURL do obsługi aplikacji:
 
