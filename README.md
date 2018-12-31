@@ -32,7 +32,7 @@ CRUD – SALA KONFERENCYJNA:
 
 ZAPISANIE SALI KONFERENCYJNEJ:
 
-curl -X POST http://localhost:8080/conferenceroom -H 'Content-Type: application/json' -d '{"name":"conference room 1","id":"CR1","floor":10,"availability":true,"seating":34,"standingPlace":23,"lyingPlace":15,"hammock":24,"phone":true,"phoneInNumber":"91","phoneOutNumber":"+12 123456789","communicationInterface":"bluetooth"}'
+curl -X POST http://localhost:8080/conferenceroom -H 'Content-Type: application/json' -d '{"name" : "conference room 1","id" : "CR1","floor" : 10,"availability" : true,"seating" : 34,"standingPlace" : 23,"lyingPlace" : 15,"hammock" : 24,"phone" : true,"phoneInNumber" : "91","phoneOutNumber" : "+12 123456789","communicationInterface" : "bluetooth"}'
 
 
 ODCZYT WSZYSTKICH SAL KONFERENCYJNYCH:
