@@ -21,7 +21,8 @@ Lista poleceń CURL do obsługi aplikacji:
 
 CRUD – Sala konferencyjna
 
-Post /conferenceroom – zapisanie sali konferencyjnej
+Zapisanie sali konferencyjnej:
+
 curl -X POST http://localhost:8080/conferenceroom -H 'Content-Type: application/json' -d '{"name":"conference room 1","id":"CR1","floor":10,"availability":true,"seating":34,"standingPlace":23,"lyingPlace":15,"hammock":24,"phone":true,"phoneInNumber":"91","phoneOutNumber":"+12 123456789","communicationInterface":"bluetooth"}'
 
 Get /conferenceroom – odczyt wszystkich sal konferencyjnych
@@ -63,17 +64,23 @@ curl -X DELETE http://localhost:8080/organization/delete/all
 
 CRUD – Rezerwacja
 
-Post /reservation – zapisanie rezerwacji
+Zapisanie rezerwacji:
+
 curl -X POST http://localhost:8080/reservation -H 'Content-Type: application/json' -d '{ 
 "id":"Rezerwacja1","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
 
-Get /reservation – odczyt wszystkich organizacji
+
+Odczyt wszystkich organizacji:
+
 curl -X GET http://localhost:8080/reservation
 
-Get /reservation/name – odczyt rezerwacji po id
+
+Odczyt rezerwacji po id:
+
 curl -X GET 'http://localhost:8080/reservation/id?id=Rezerwacja1'
 
-Put /reservation/update – update organizacji po nazwie
+
+Update organizacji po nazwie
 curl -X PUT 'http://localhost:8080/reservation/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d '{ 
 "id":"Rezerwacja2","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
 
