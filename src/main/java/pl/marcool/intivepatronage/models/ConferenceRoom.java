@@ -1,7 +1,6 @@
 package pl.marcool.intivepatronage.models;
 
 import org.hibernate.validator.constraints.Range;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -9,18 +8,16 @@ import javax.validation.constraints.Size;
 
 public class ConferenceRoom {
 
-    @NotBlank(message = "Nazwa nie może składać się z samych białych znaków")
-    @Size(min = 2, max = 20, message = "Nazwa musi mieć długość od 2 do 20")
-    @NotNull(message = "Musisz podać nazwę sali")
+    @NotBlank(message = "Name must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
     private String name;
 
-    @NotBlank(message = "Identyfikator nie może składać się z samych białych znaków")
-    @Size(min = 2, max = 20, message = "Identyfikator musi mieć długość od 2 do 20")
-    @NotNull(message = "Musisz podać ID sali")
+    @NotBlank(message = "ID must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
     private String id;
 
-    @Range(min = 0, max = 10, message = "Piętro może być z przedziału 0-10")
-    @NotNull(message = "Musisz podać piętro")
+    @Range(min = 0, max = 10, message = "Floor must be between 0 and 10")
+    @NotNull(message = "You must enter the floor")
     private int floor;
     private boolean availability;
     private int seating;
@@ -30,16 +27,17 @@ public class ConferenceRoom {
     private String projector;
     private boolean phone;
 
-    @Range(min = 0, max = 99, message = "Numer wewnętrzny dozwolony w zakresie od 0 do 99")
+    @Range(min = 0, max = 99, message = "Internal number must be between 0 and 99")
     private int phoneInNumber;
 
-    @Pattern(regexp = "\\++[0-9]{2}+\\s+[0-9]{9}", message = "Numer zewnętrzny musi mieć 13 znaków w formacie +12 123456789")
+    @Pattern(regexp = "\\++[0-9]{2}+\\s+[0-9]{9}", message = "The external number must have 13 characters in the format +12 123456789")
     private String phoneOutNumber;
 
-    @Pattern(regexp = "USB|bluetooth", message = "Interfejs telefonu może mieć tylko jedną z dwóch wartości: 'USB' lub 'bluetooth")
+    @Pattern(regexp = "USB|bluetooth", message = "The phone interface can only have one of two values: 'USB' or 'bluetooth")
     private String communicationInterface;
 
-    public ConferenceRoom() {}
+    public ConferenceRoom() {
+    }
 
     @Override
     public String toString() {

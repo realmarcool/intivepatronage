@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.Organization;
 import pl.marcool.intivepatronage.repositores.OrganizationRepository;
-
 import java.util.List;
 
 @Service
@@ -12,47 +11,38 @@ public class OrganizationService {
 
     @Autowired
     private OrganizationRepository organizationRepository;
+    private String message = "The following error was detected:\n";
 
-    public String save(Organization organization) {
-        Organization check = organizationRepository.findById(organization.getName());
-        if (check.getName().equals("pusty")) {
-            organizationRepository.save(organization);
-            return "ok";
-        }
-        return "UWAGA! BŁĄD:\nOrganizacja '" + check.getName() + "' już istnieje";
+    public void save(Organization organization) throws MyExceptions {
+        String isIdExist = organizationRepository.findById(organization.getName()).getName();
+        if (!isIdExist.equals("empty"))
+            throw new MyExceptions(message + "Organization '" + isIdExist + "' already exists");
+        organizationRepository.save(organization);
     }
 
     public List getAll() {
         return organizationRepository.findAll();
     }
 
-    public Organization findById(String id){
+    public Organization findById(String id) {
         return organizationRepository.findById(id);
     }
 
-    public String update(String id, Organization organization) {
-
-        //Czy stara nazwa istnieje
-        String checkOldName = findById(id).getName();
-        //Czy nowa nazwa istnieje
-        String checkNewName = findById(organization.getName()).getName();
-        String errorMessage = "";
-
-        //Jeżeli nowa nazwa jest już używana
-        if (!checkNewName.equals("pusty")&!checkNewName.equals(checkOldName)) errorMessage = "UWAGA! BŁĄD:\nNazwa: '" + checkNewName + "' jest już zajęta!";
-        //Jeżeli nieznaleziono organizacji
-        if (checkOldName.equals("pusty")) errorMessage = "UWAGA! BŁĄD:\nNie znaleziono organizacji o nazwie: '" + id + "'";
-        if ((checkNewName.equals("pusty")||checkNewName.equals(checkOldName)) & !checkOldName.equals("pusty")) {
-            organizationRepository.update(id, organization);
-            return "ok";
-        } else return errorMessage;
+    public void update(String id, Organization organization) throws MyExceptions {
+        String isOldNameExist = findById(id).getName();
+        String isNewNameExist = findById(organization.getName()).getName();
+        if (isOldNameExist.equals("empty"))
+            throw new MyExceptions(message + "No organization '" + id + "' was found");
+        if (!isNewNameExist.equals("empty") & !isNewNameExist.equals(isOldNameExist))
+            throw new MyExceptions(message + "Name '" + isNewNameExist + "' already exists");
+        organizationRepository.update(id, organization);
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) {
         organizationRepository.deleteById(id);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         organizationRepository.deleteAll();
     }
 }

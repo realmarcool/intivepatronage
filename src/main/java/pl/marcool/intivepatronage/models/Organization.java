@@ -1,16 +1,15 @@
 package pl.marcool.intivepatronage.models;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Organization {
-    @NotBlank(message = "Nazwa nie może składać się z samych białych znaków")
-    @Size(min = 2, max = 20, message = "Nazwa musi mieć długość od 2 do 20")
-    @NotNull(message = "Musisz podać nazwę sali")
+    @NotBlank(message = "Name must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
     private String name;
 
-    public Organization(){}
+    public Organization() {
+    }
 
     public String getName() {
         return name;

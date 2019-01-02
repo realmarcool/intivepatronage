@@ -6,8 +6,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.marcool.intivepatronage.models.Reservation;
 import pl.marcool.intivepatronage.services.CheckingService;
+import pl.marcool.intivepatronage.services.MyExceptions;
 import pl.marcool.intivepatronage.services.ReservationService;
-
 import javax.validation.Valid;
 
 @RestController
@@ -17,6 +17,7 @@ public class ReservationController {
     private CheckingService checkingService;
     @Autowired
     private ReservationService reservationService;
+    private String message = "The following error was detected:\n";
 
     @GetMapping("/reservation")
     ResponseEntity getAll() {
@@ -24,51 +25,49 @@ public class ReservationController {
     }
 
     @GetMapping("/reservation/id")
-    ResponseEntity getById(@RequestParam String id){
-        if(!reservationService.findById(id).getId().equals("pusty")){
+    ResponseEntity getById(@RequestParam String id) {
+        if (!reservationService.findById(id).getId().equals("empty")) {
             return ResponseEntity.ok().body(reservationService.findById(id));
         }
-        return ResponseEntity.badRequest().body("Nie znaleziono reserwacji o id '" + id + "'");
+        return ResponseEntity.badRequest().body(message + "ID: '" + id + "' not found");
     }
 
     @PostMapping("/reservation")
     ResponseEntity save(@RequestBody @Valid Reservation reservation, BindingResult bindingResult) {
-
-        String checkOrg = checkingService.checkBindingResult(bindingResult); //Sprawdzenie poprawności parametrów
-
-        if(checkOrg.equals("ok")){
-            String addReservation = reservationService.save(reservation);
-            if (addReservation.equals("ok")) return ResponseEntity.ok("Pomyślnie dodano:\n" + reservation);
-            else return ResponseEntity.badRequest().body(addReservation);
+        try {
+            checkingService.checkBindingResult(bindingResult);
+            reservationService.save(reservation);
+            return ResponseEntity.ok("Added successfully:\n" + reservation);
+        } catch (MyExceptions myExceptions) {
+            return ResponseEntity.badRequest().body(myExceptions.getMessage());
         }
-        else return ResponseEntity.badRequest().body(checkOrg);
     }
 
     @PutMapping("/reservation/update")
     ResponseEntity update(@RequestParam String id,
                           @RequestBody @Valid Reservation reservation,
                           BindingResult bindingResult) {
-
-        String checkBR = checkingService.checkBindingResult(bindingResult); //Sprawdzenie poprawności parametrów
-        if (checkBR.equals("ok")) {
-            String reply = reservationService.update(id, reservation);
-            if (reply.equals("ok")) return ResponseEntity.ok().body("Pomyślny update:\n" + reservation);
-            else return ResponseEntity.badRequest().body(reply);
-        }else return ResponseEntity.badRequest().body(checkBR);
+        try {
+            checkingService.checkBindingResult(bindingResult);
+            reservationService.update(id, reservation);
+            return ResponseEntity.ok().body("Successful update:\n" + reservation);
+        } catch (MyExceptions myExceptions) {
+            return ResponseEntity.badRequest().body(myExceptions.getMessage());
+        }
     }
 
     @DeleteMapping("/reservation/delete/id")
-    ResponseEntity delete(@RequestParam String id){
-        if(!reservationService.findById(id).getId().equals("pusty")){
+    ResponseEntity delete(@RequestParam String id) {
+        if (!reservationService.findById(id).getId().equals("empty")) {
             reservationService.deleteById(id);
-            return ResponseEntity.ok().body("Pomyślnie skasowano rezerwację o id '" + id + "'");
+            return ResponseEntity.ok().body("'" + id + "' entry has been successfully deleted");
         }
-        return ResponseEntity.badRequest().body("Nie znaleziono rezerwacji o id '" + id + "'");
+        return ResponseEntity.badRequest().body(message + "ID: '" + id + "' not found");
     }
 
     @DeleteMapping("/reservation/delete/all")
-    ResponseEntity deleteAll(){
+    ResponseEntity deleteAll() {
         reservationService.deleteAll();
-        return ResponseEntity.ok().body("Skasowano całą bazę rezerwacji");
+        return ResponseEntity.ok().body("The entire Reservation database has been successfully deleted");
     }
 }

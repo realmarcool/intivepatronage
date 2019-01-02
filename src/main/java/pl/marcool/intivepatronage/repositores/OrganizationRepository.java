@@ -2,7 +2,6 @@ package pl.marcool.intivepatronage.repositores;
 
 import org.springframework.stereotype.Repository;
 import pl.marcool.intivepatronage.models.Organization;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ public class OrganizationRepository {
 
     public Organization findById(String id) {
         Organization empty = new Organization();
-        empty.setName("pusty");
+        empty.setName("empty");
         if (organizationList.containsKey(id)) return organizationList.get(id);
         return empty;
     }

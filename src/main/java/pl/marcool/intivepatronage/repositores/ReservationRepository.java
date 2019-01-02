@@ -2,7 +2,6 @@ package pl.marcool.intivepatronage.repositores;
 
 import org.springframework.stereotype.Repository;
 import pl.marcool.intivepatronage.models.Reservation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ReservationRepository {
 
     public Reservation findById(String id) {
         Reservation empty = new Reservation();
-        empty.setId("pusty");
+        empty.setId("empty");
         if (reservationList.containsKey(id)) return reservationList.get(id);
         return empty;
     }

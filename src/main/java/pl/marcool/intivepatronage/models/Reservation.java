@@ -1,23 +1,21 @@
 package pl.marcool.intivepatronage.models;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Reservation {
 
-    @NotBlank(message = "ID nie może składać się z samych białych znaków")
-    @Size(min = 2, max = 20, message = "ID musi mieć długość od 2 do 20")
-    @NotNull(message = "Musisz podać ID")
+    @NotBlank(message = "ID must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
     private String id;
-    private LocalDate start;
-    private LocalDate end;
+    private LocalDate beginDate;
+    private LocalDate endDate;
     private String organizationId;
     private String conferenceRoomId;
 
-    public Reservation(){}
+    public Reservation() {
+    }
 
     public String getId() {
         return id;
@@ -27,20 +25,20 @@ public class Reservation {
         this.id = id;
     }
 
-    public LocalDate getStart() {
-        return start;
+    public LocalDate getBeginDate() {
+        return beginDate;
     }
 
-    public void setStart(LocalDate start) {
-        this.start = start;
+    public void setBeginDate(LocalDate beginDate) {
+        this.beginDate = beginDate;
     }
 
-    public LocalDate getEnd() {
-        return end;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(LocalDate end) {
-        this.end = end;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getOrganizationId() {
@@ -63,8 +61,8 @@ public class Reservation {
     public String toString() {
         return "Reservation{" +
                 "id='" + id + '\'' +
-                ", start=" + start +
-                ", end=" + end +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
                 ", organizationId='" + organizationId + '\'' +
                 ", conferenceRoomId='" + conferenceRoomId + '\'' +
                 '}';
