@@ -1,6 +1,7 @@
 package pl.marcool.intivepatronage.models;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -9,7 +10,9 @@ public class Reservation {
     @NotBlank(message = "ID must not be null and can't consist of only white characters")
     @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
     private String id;
+    @NotNull(message = "Enter beginDate")
     private LocalDate beginDate;
+    @NotNull(message = "Enter endDate")
     private LocalDate endDate;
     private String organizationId;
     private String conferenceRoomId;
