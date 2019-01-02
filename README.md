@@ -103,7 +103,7 @@ CRUD – REZERWACJA
 ZAPISANIE REZERWACJI:
 
 curl -X POST http://localhost:8080/reservation -H 'Content-Type: application/json' -d '{ 
-"id":"Rezerwacja1","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
+"id":"Rezerwacja1","beginDate":"2019-01-01","endDate":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
 
 
 ODCZYT WSZYSTKICH ORGANIZACJI:
