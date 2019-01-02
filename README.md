@@ -1,4 +1,4 @@
-linuxieWykorzystano następujące narzędzia:
+Wykorzystano następujące narzędzia:
 
 - Java 11 jdk
 - IntelliJ, 
