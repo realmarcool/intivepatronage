@@ -1,4 +1,6 @@
-Wykorzystano następujące narzędzia:
+
+
+curl -X PUT 'http://localhost:8080/reservation/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d '{ "id":"Rezerwacja2","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'Wykorzystano następujące narzędzia:
 
 - Java 11 jdk
 - IntelliJ, 
@@ -106,7 +108,7 @@ curl -X POST http://localhost:8080/reservation -H 'Content-Type: application/jso
 "id":"Rezerwacja1","beginDate":"2019-01-01","endDate":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
 
 
-ODCZYT WSZYSTKICH ORGANIZACJI:
+ODCZYT WSZYSTKICH REZERWACJI:
 
 curl -X GET http://localhost:8080/reservation
 
@@ -116,10 +118,10 @@ ODCZYT REZERWACJI PO ID:
 curl -X GET 'http://localhost:8080/reservation/id?id=Rezerwacja1'
 
 
-UPDATE REZERWACJI PO NAZWIE:
+UPDATE REZERWACJI PO ID:
 
 curl -X PUT 'http://localhost:8080/reservation/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d '{ 
-"id":"Rezerwacja2","start":"2019-01-01","end":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
+"id":"Rezerwacja2","beginDate":"2019-01-01","endDate":"2019-01-10","organizationId":"Organizacja1","conferenceRoomId":"CR1"}'
 
 
 SKASOWANIE REZERWACJI PO ID:
