@@ -26,7 +26,7 @@ gradlew bootJar    (pod Windowsem)
 java -jar intivepatronage-0.0.1-SNAPSHOT.jar    (proszę pamiętać, że port 8080 na localhost musi być wolny)
 
 ******************************************************************
-Api Documentation Swagger - localhost:8080/swagger-ui.html
+Api Documentation Swagger - http://localhost:8080/swagger-ui.html
 ******************************************************************
 
 Lista poleceń CURL do obsługi aplikacji:
