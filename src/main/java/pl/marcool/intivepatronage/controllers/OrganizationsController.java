@@ -28,6 +28,7 @@ public class OrganizationsController {
     ResponseEntity getAll() {
         jsonMessage.setOperation("getAll");
         jsonMessage.setStatus("success");
+        jsonMessage.setMessage(null);
         return ResponseEntity.ok().body(gson.toJson(jsonMessage) + organizationService.getAll());
     }
 
@@ -37,6 +38,7 @@ public class OrganizationsController {
             Organization organization = organizationService.findById(id);
             jsonMessage.setOperation("getById");
             jsonMessage.setStatus("success");
+            jsonMessage.setMessage(null);
             return ResponseEntity.ok().body(gson.toJson(jsonMessage) + organization);
         } catch (MyExceptions myExceptions) {
             jsonMessage.setOperation("getById");
@@ -53,6 +55,7 @@ public class OrganizationsController {
             organizationService.save(organization);
             jsonMessage.setOperation("save");
             jsonMessage.setStatus("success");
+            jsonMessage.setMessage(null);
             return ResponseEntity.ok().body(gson.toJson(jsonMessage) + organization);
         } catch (MyExceptions myExceptions) {
             jsonMessage.setOperation("save");
@@ -71,6 +74,7 @@ public class OrganizationsController {
             organizationService.update(id, organization);
             jsonMessage.setOperation("update");
             jsonMessage.setStatus("success");
+            jsonMessage.setMessage(null);
             return ResponseEntity.ok().body(gson.toJson(jsonMessage) + organization);
         } catch (MyExceptions myExceptions) {
             jsonMessage.setOperation("update");
@@ -99,6 +103,9 @@ public class OrganizationsController {
     @DeleteMapping("/organizations/delete/all")
     ResponseEntity deleteAll() {
         organizationService.deleteAll();
-        return ResponseEntity.ok().body("The entire Organization database has been successfully deleted.");
+        jsonMessage.setOperation("deleteAll");
+        jsonMessage.setStatus("success");
+        jsonMessage.setMessage("The entire Organizations database has been successfully deleted.");
+        return ResponseEntity.ok().body(gson.toJson(jsonMessage));
     }
 }

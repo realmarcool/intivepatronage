@@ -83,7 +83,7 @@ public class ReservationService {
                 .anyMatch(date -> (reservationBegin.plusMinutes(1).isAfter(date.getBeginDate()) & reservationBegin.isBefore(date.getEndDate())))
                 || reservationList
                 .stream()
-                .anyMatch(date -> (reservationEnd.isBefore(date.getBeginDate()) & reservationEnd.isAfter(date.getBeginDate()))))
+                .anyMatch(date -> (reservationBegin.isBefore(date.getBeginDate()) & reservationEnd.isAfter(date.getBeginDate()))))
             throw new MyExceptions("Conference Room is already reserved at this time.");
     }
 }

@@ -28,6 +28,7 @@ public class ConferenceRoomsController {
     ResponseEntity getAll() {
         jsonMessage.setOperation("getAll");
         jsonMessage.setStatus("success");
+        jsonMessage.setMessage(null);
         return ResponseEntity.ok().body(gson.toJson(jsonMessage) + conferenceRoomService.getAll());
     }
 
@@ -37,6 +38,7 @@ public class ConferenceRoomsController {
             ConferenceRoom conferenceRoom = conferenceRoomService.findById(id);
             jsonMessage.setOperation("getById");
             jsonMessage.setStatus("success");
+            jsonMessage.setMessage(null);
             return ResponseEntity.ok().body(gson.toJson(jsonMessage) + conferenceRoom);
         } catch (MyExceptions myExceptions) {
             jsonMessage.setOperation("getById");
@@ -53,6 +55,7 @@ public class ConferenceRoomsController {
             conferenceRoomService.save(conferenceRoom);
             jsonMessage.setOperation("save");
             jsonMessage.setStatus("success");
+            jsonMessage.setMessage(null);
             return ResponseEntity.ok().body(gson.toJson(jsonMessage) + conferenceRoom);
         } catch (MyExceptions myExceptions) {
             jsonMessage.setOperation("save");
@@ -71,6 +74,7 @@ public class ConferenceRoomsController {
             conferenceRoomService.update(id, conferenceRoom);
             jsonMessage.setOperation("update");
             jsonMessage.setStatus("success");
+            jsonMessage.setMessage(null);
             return ResponseEntity.ok().body(gson.toJson(jsonMessage) + conferenceRoom);
         } catch (MyExceptions myExceptions) {
             jsonMessage.setOperation("update");
