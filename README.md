@@ -1,9 +1,10 @@
 Wykorzystano następujące narzędzia:
 
-- Java 11 jdk
+- Java 11 jdk,
 - IntelliJ, 
 - Gradle 5,
-- Spring Boot 2.1.1
+- Spring Boot 2.1.1,
+- Swagger
 
 
 Jak zbudować i uruchomić aplikację:
@@ -25,6 +26,8 @@ gradlew bootJar    (pod Windowsem)
 java -jar intivepatronage-0.0.1-SNAPSHOT.jar    (proszę pamiętać, że port 8080 na localhost musi być wolny)
 
 ******************************************************************
+Api Documentation Swagger - http://localhost:8080/swagger-ui.html
+******************************************************************
 
 Lista poleceń CURL do obsługi aplikacji:
 
@@ -32,7 +35,7 @@ CRUD – SALA KONFERENCYJNA:
 
 ZAPISANIE SALI KONFERENCYJNEJ:
 
-curl -X POST http://localhost:8080/conferenceroom -H 'Content-Type: application/json' -d @payload.json
+curl -X POST http://localhost:8080/conferencerooms -H 'Content-Type: application/json' -d @payload.json
 
 zawartość payload.json
 {
@@ -53,27 +56,27 @@ zawartość payload.json
 
 ODCZYT WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X GET http://localhost:8080/conferenceroom
+curl -X GET http://localhost:8080/conferencerooms
 
 
 ODCZYT SALI KONFERENCYJNEJ PO ID:
 
-curl -X GET 'http://localhost:8080/conferenceroom/id?id=CR1'
+curl -X GET 'http://localhost:8080/conferencerooms/id?id=CR1'
 
 
 UPDATE SALI KONFERENCYJNEJ PO ID:
 
-curl -X PUT 'http://localhost:8080/conferenceroom/update?id=CR1' -H 'Content-Type: application/json' -d @payload.json
+curl -X PUT 'http://localhost:8080/conferencerooms/update?id=CR1' -H 'Content-Type: application/json' -d @payload.json
 
 
 SKASOWANIE SALI KONFERENCYJNEJ PO ID:
 
-curl -X DELETE 'http://localhost:8080/conferenceroom/delete/id?id=CR2'
+curl -X DELETE 'http://localhost:8080/conferencerooms/delete/id?id=CR2'
 
 
 SKASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X DELETE http://localhost:8080/conferenceroom/delete/all
+curl -X DELETE http://localhost:8080/conferencerooms/delete/all
 
 ******************************************************************
 
@@ -81,32 +84,32 @@ CRUD – ORGANIZACJA
 
 ZAPISANIE ORGANIZACJI:
 
-curl -X POST  http://localhost:8080/organization -H 'Content-Type: application/json' -d '{"name":"Organizacja1"}'
+curl -X POST  http://localhost:8080/organizations -H 'Content-Type: application/json' -d '{"name":"Organizacja1"}'
 
 
 ODCZYT WSZYSTKICH ORGANIZACJI:
 
-curl -X GET http://localhost:8080/organization
+curl -X GET http://localhost:8080/organizations
 
 
 ODCZYT ORGANIZACJI PO NAZWIE:
 
-curl -X GET 'http://localhost:8080/organization/name?id=Organizacja1'
+curl -X GET 'http://localhost:8080/organizations/id?id=Organizacja1'
 
 
 UPDATE ORGANIZACJI PO NAZWIE:
 
-curl -X PUT 'http://localhost:8080/organization/update?id=Organizacja1' -H 'Content-Type: application/json' -d '{"name":"Organizacja2"}'
+curl -X PUT 'http://localhost:8080/organizations/update?id=Organizacja1' -H 'Content-Type: application/json' -d '{"name":"Organizacja2"}'
 
 
 SKASOWANIE SALI KONFERENCYJNEJ PO NAZWIE:
 
-curl -X DELETE 'http://localhost:8080/organization/delete/name?id=Organizacja2'
+curl -X DELETE 'http://localhost:8080/organizations/delete/id?id=Organizacja2'
 
 
 KASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X DELETE http://localhost:8080/organization/delete/all
+curl -X DELETE http://localhost:8080/organizations/delete/all
 
 ******************************************************************
 
@@ -114,12 +117,12 @@ CRUD – REZERWACJA
 
 ZAPISANIE REZERWACJI:
 
-curl -X POST http://localhost:8080/reservation -H 'Content-Type: application/json' -d@payload.json
+curl -X POST http://localhost:8080/reservations -H 'Content-Type: application/json' -d@payload.json
 
 zawartość payload.json
 {"id" : "Rezerwacja1",
-"beginDate" : "2019-01-01",
-"endDate" : "2019-01-10",
+"beginDate" : "2019-01-01T13:00",
+"endDate" : "2019-01-01T14:00",
 "organizationId" : "Organizacja1",
 "conferenceRoomId" : "CR1"
 }
@@ -127,25 +130,25 @@ zawartość payload.json
 
 ODCZYT WSZYSTKICH REZERWACJI:
 
-curl -X GET http://localhost:8080/reservation
+curl -X GET http://localhost:8080/reservations
 
 
 ODCZYT REZERWACJI PO ID:
 
-curl -X GET 'http://localhost:8080/reservation/id?id=Rezerwacja1'
+curl -X GET 'http://localhost:8080/reservations/id?id=Rezerwacja1'
 
 
 UPDATE REZERWACJI PO ID:
 
-curl -X PUT 'http://localhost:8080/reservation/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d@payload.json
+curl -X PUT 'http://localhost:8080/reservations/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d@payload.json
 
 
 SKASOWANIE REZERWACJI PO ID:
 
-curl -X DELETE 'http://localhost:8080/reservation/delete/id?id=Rezerwacja2'
+curl -X DELETE 'http://localhost:8080/reservations/delete/id?id=Rezerwacja2'
 
 
 SKASOWANIE WSZYSTKICH REZERWACJI:
 
-curl -X DELETE http://localhost:8080/reservation/delete/all
+curl -X DELETE http://localhost:8080/reservations/delete/all
 
