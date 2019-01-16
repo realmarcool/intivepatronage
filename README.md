@@ -1,9 +1,10 @@
 Wykorzystano następujące narzędzia:
 
-- Java 11 jdk
+- Java 11 jdk,
 - IntelliJ, 
 - Gradle 5,
-- Spring Boot 2.1.1
+- Spring Boot 2.1.1,
+- Swagger
 
 
 Jak zbudować i uruchomić aplikację:
@@ -24,6 +25,8 @@ gradlew bootJar    (pod Windowsem)
 
 java -jar intivepatronage-0.0.1-SNAPSHOT.jar    (proszę pamiętać, że port 8080 na localhost musi być wolny)
 
+******************************************************************
+Api Documentation Swagger - localhost:8080/swagger-ui.html
 ******************************************************************
 
 Lista poleceń CURL do obsługi aplikacji:
@@ -91,7 +94,7 @@ curl -X GET http://localhost:8080/organization
 
 ODCZYT ORGANIZACJI PO NAZWIE:
 
-curl -X GET 'http://localhost:8080/organization/name?id=Organizacja1'
+curl -X GET 'http://localhost:8080/organization/id?id=Organizacja1'
 
 
 UPDATE ORGANIZACJI PO NAZWIE:
@@ -101,7 +104,7 @@ curl -X PUT 'http://localhost:8080/organization/update?id=Organizacja1' -H 'Cont
 
 SKASOWANIE SALI KONFERENCYJNEJ PO NAZWIE:
 
-curl -X DELETE 'http://localhost:8080/organization/delete/name?id=Organizacja2'
+curl -X DELETE 'http://localhost:8080/organization/delete/id?id=Organizacja2'
 
 
 KASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
