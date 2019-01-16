@@ -11,6 +11,5 @@ public class IntivepatronageApplication {
     public static void main(String[] args) {
         SpringApplication.run(IntivepatronageApplication.class, args);
     }
-
 }
 

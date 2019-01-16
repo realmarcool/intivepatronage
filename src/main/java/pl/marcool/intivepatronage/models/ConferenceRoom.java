@@ -1,17 +1,21 @@
 package pl.marcool.intivepatronage.models;
 
 import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Entity
 public class ConferenceRoom {
 
     @NotBlank(message = "Name must not be null and can't consist of only white characters")
     @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
     private String name;
 
+    @Id
     @NotBlank(message = "ID must not be null and can't consist of only white characters")
     @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
     private String id;
@@ -67,7 +71,7 @@ public class ConferenceRoom {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {

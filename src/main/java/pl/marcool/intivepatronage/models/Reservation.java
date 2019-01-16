@@ -1,20 +1,27 @@
 package pl.marcool.intivepatronage.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+@Entity
 public class Reservation {
 
     @NotBlank(message = "ID must not be null and can't consist of only white characters")
     @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
+    @Id
     private String id;
     @NotNull(message = "Enter beginDate")
-    private LocalDate beginDate;
+    private LocalDateTime beginDate;
     @NotNull(message = "Enter endDate")
-    private LocalDate endDate;
+    private LocalDateTime endDate;
+    @NotNull(message = "Enter Organization ID")
     private String organizationId;
+    @NotNull(message = "Enter Conference Room ID")
     private String conferenceRoomId;
 
     public Reservation() {
@@ -28,19 +35,19 @@ public class Reservation {
         this.id = id;
     }
 
-    public LocalDate getBeginDate() {
+    public LocalDateTime getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(LocalDate beginDate) {
+    public void setBeginDate(LocalDateTime beginDate) {
         this.beginDate = beginDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -60,14 +67,19 @@ public class Reservation {
         this.conferenceRoomId = conferenceRoomId;
     }
 
+    private DateTimeFormatter dataFormat() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    }
+
     @Override
     public String toString() {
+
         return "Reservation{" +
-                "id='" + id + '\'' +
-                ", beginDate=" + beginDate +
-                ", endDate=" + endDate +
-                ", organizationId='" + organizationId + '\'' +
-                ", conferenceRoomId='" + conferenceRoomId + '\'' +
+                "id= '" + id + '\'' +
+                ", beginDate= " + beginDate.format(dataFormat()) +
+                ", endDate= " + endDate.format(dataFormat()) +
+                ", organizationId= '" + organizationId + '\'' +
+                ", conferenceRoomId= '" + conferenceRoomId + '\'' +
                 '}';
     }
 }

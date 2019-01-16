@@ -4,54 +4,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.ConferenceRoom;
 import pl.marcool.intivepatronage.repositores.ConferenceRoomRepository;
-import java.util.List;
+
+import java.util.Optional;
 
 @Service
 public class ConferenceRoomService {
 
     @Autowired
     private ConferenceRoomRepository conferenceRoomRepository;
-    private String message = "The following error was detected:\n";
 
     public void save(ConferenceRoom conferenceRoom) throws MyExceptions {
-        String isNameExist = findByName(conferenceRoom.getName()).getName();
-        String isIdExist = findById(conferenceRoom.getId()).getId();
-        if (!isIdExist.equals("empty"))
-            throw new MyExceptions(message + "ID: " + conferenceRoom.getId() + "' already exists");
-        if (!isNameExist.equals("empty"))
-            throw new MyExceptions(message + "Name: '" + conferenceRoom.getName() + "' already exists");
+        if (conferenceRoomRepository.findById(conferenceRoom.getId()).isPresent())
+            throw new MyExceptions("Conference Room ID:" + conferenceRoom.getId() + "- already exists");
+        if (conferenceRoomRepository.findByName(conferenceRoom.getName()).isPresent())
+            throw new MyExceptions("Conference Room name:" + conferenceRoom.getName() + "- already exists");
         conferenceRoomRepository.save(conferenceRoom);
     }
 
-    public List getAll() {
+    public Iterable<ConferenceRoom> getAll() {
         return conferenceRoomRepository.findAll();
     }
 
-    public ConferenceRoom findById(String id) {
-        return conferenceRoomRepository.findById(id);
+    public ConferenceRoom findById(String id) throws MyExceptions {
+        Optional<ConferenceRoom> conferenceRoom = conferenceRoomRepository.findById(id);
+        if (conferenceRoom.isEmpty()) throw new MyExceptions("Conference Room ID:" + id + "- not found");
+        return conferenceRoom.get();
     }
 
     public void update(String id, ConferenceRoom conferenceRoom) throws MyExceptions {
-        String isOldIdExist = findById(id).getId();
-        String isNewIdExist = findById(conferenceRoom.getId()).getId();
-        ConferenceRoom isNewNameExist = findByName(conferenceRoom.getName());
-        if (isOldIdExist.equals("empty")) throw new MyExceptions(message + "ID: '" + id + "' not found");
-        if (!isNewIdExist.equals("empty") & !isOldIdExist.equals(isNewIdExist))
-            throw new MyExceptions(message + "ID: '" + isNewIdExist + "' already exists");
-        if (!isNewNameExist.getName().equals("empty") & !isNewNameExist.getId().equals(id))
-            throw new MyExceptions(message + "Name: '" + conferenceRoom.getName() + "' already exists");
-        conferenceRoomRepository.update(id, conferenceRoom);
+        if (conferenceRoomRepository.findById(id).isEmpty())
+            throw new MyExceptions("Conference Room ID:" + id + "- not found");
+        if (conferenceRoomRepository.findById(conferenceRoom.getId())
+                .stream()
+                .anyMatch(cr -> !cr.getId().equals(id)))
+            throw new MyExceptions("Conference Room ID:" + conferenceRoom.getId() + "- already exists");
+        if (conferenceRoomRepository.findByName(conferenceRoom.getName())
+                .stream()
+                .anyMatch(cr -> !cr.getId().equals(id)))
+            throw new MyExceptions("Conference Room name:" + conferenceRoom.getName() + "- already exists");
+        conferenceRoomRepository.deleteById(id);
+        conferenceRoomRepository.save(conferenceRoom);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(String id) throws MyExceptions {
+        if (conferenceRoomRepository.findById(id).isEmpty())
+            throw new MyExceptions("Conference Room ID:" + id + "- not found");
         conferenceRoomRepository.deleteById(id);
     }
 
     public void deleteAll() {
         conferenceRoomRepository.deleteAll();
-    }
-
-    public ConferenceRoom findByName(String name) {
-        return conferenceRoomRepository.findByName(name);
     }
 }
