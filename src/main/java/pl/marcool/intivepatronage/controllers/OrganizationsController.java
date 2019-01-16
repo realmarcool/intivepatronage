@@ -31,7 +31,7 @@ public class OrganizationsController {
         return ResponseEntity.ok().body(gson.toJson(jsonMessage) + organizationService.getAll());
     }
 
-    @GetMapping("/organizations/name")
+    @GetMapping("/organizations/id")
     ResponseEntity getById(@RequestParam String id) {
         try {
             Organization organization = organizationService.findById(id);

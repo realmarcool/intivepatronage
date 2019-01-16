@@ -65,7 +65,7 @@ public class ReservationService {
         if (organizationRepository.findById(reservation.getOrganizationId()).isEmpty())
             throw new MyExceptions("Organization ID:" + reservation.getOrganizationId() + " - not found.");
         if (reservationBegin.getSecond() != 0 || reservationEnd.getSecond() != 0)
-            throw new MyExceptions("Seconds must be set to 0.");        
+            throw new MyExceptions("Seconds must be set to 0.");
         if (reservationBegin.getNano() != 0 || reservationEnd.getNano() != 0)
             throw new MyExceptions("Nanoseconds must be set to 0.");
         if (reservationBegin.isAfter(reservationEnd))
