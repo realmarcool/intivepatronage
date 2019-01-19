@@ -2,13 +2,13 @@ package pl.marcool.intivepatronage.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import pl.marcool.intivepatronage.models.Reservation;
 import pl.marcool.intivepatronage.repositores.OrganizationRepository;
 import pl.marcool.intivepatronage.repositores.ReservationRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,12 +20,15 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     @Autowired
     private OrganizationRepository organizationRepository;
+    @Autowired
+    private CheckingService checkingService;
 
-    public void save(Reservation reservation) throws MyExceptions {
+    public Reservation save(Reservation reservation, BindingResult bindingResult) throws MyExceptions {
         if (reservationRepository.findById(reservation.getId()).isPresent())
-            throw new MyExceptions("Reservation ID:" + reservation.getId() + " - is already used.");
-        isCommonConditionsCorrect("none", reservation);
-        reservationRepository.save(reservation);
+            throw new MyExceptions(400,
+                    "{\"Error\":\"'" + reservation.getId() + "' - already exist\"}");
+        isCommonConditionsCorrect("none", reservation, bindingResult);
+        return reservationRepository.save(reservation);
     }
 
     public Iterable<Reservation> getAll() {
@@ -33,57 +36,63 @@ public class ReservationService {
     }
 
     public Reservation findById(String id) throws MyExceptions {
-        Optional<Reservation> reservation = reservationRepository.findById(id);
-        if (reservation.isEmpty()) throw new MyExceptions("Reservation ID:" + id + " - not found.");
-        return reservation.get();
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new MyExceptions(404,
+                        "{\"Error\":\"'" + id + "' - not found\"}"));
     }
 
-    public void update(String id, Reservation reservation) throws MyExceptions {
-        if (reservationRepository.findById(id).isEmpty())
-            throw new MyExceptions("Reservation ID:" + id + " - not found.");
+    public Reservation update(String id, Reservation reservation, BindingResult bindingResult) throws MyExceptions {
         if (reservationRepository.findById(reservation.getId()).isPresent() & !id.equals(reservation.getId()))
-            throw new MyExceptions("Reservation ID:" + reservation.getId() + " - is already used.");
-        isCommonConditionsCorrect(id, reservation);
+            throw new MyExceptions(400,
+                    "{\"Error\":\"'" + reservation.getId() + "' - already exist\"}");
+        isCommonConditionsCorrect(findById(id).getId(), reservation, bindingResult);
         reservationRepository.deleteById(id);
-        reservationRepository.save(reservation);
+        return reservationRepository.save(reservation);
     }
 
-    public void deleteById(String id) throws MyExceptions {
-        if (reservationRepository.findById(id).isEmpty())
-            throw new MyExceptions("Reservation ID:" + id + " - not found.");
-        reservationRepository.deleteById(id);
+    public String deleteById(String id) throws MyExceptions {
+        reservationRepository.deleteById(findById(id).getId());
+        return "{\"'" + id + "' - deleted\"}";
     }
 
-    public void deleteAll() {
+    public String deleteAll() {
         reservationRepository.deleteAll();
+        return "{\"Entire Reservations database deleted\"}";
     }
 
-    private void isCommonConditionsCorrect(String id, Reservation reservation) throws MyExceptions {
+    private void isCommonConditionsCorrect(String id, Reservation reservation, BindingResult bindingResult) throws MyExceptions {
+        checkingService.checkBindingResult(bindingResult);
         conferenceRoomService.findById(reservation.getConferenceRoomId());
+        organizationRepository.findById(reservation.getOrganizationId());
         LocalDateTime reservationBegin = reservation.getBeginDate();
         LocalDateTime reservationEnd = reservation.getEndDate();
-        if (organizationRepository.findById(reservation.getOrganizationId()).isEmpty())
-            throw new MyExceptions("Organization ID:" + reservation.getOrganizationId() + " - not found.");
         if (reservationBegin.getSecond() != 0 || reservationEnd.getSecond() != 0)
-            throw new MyExceptions("Seconds must be set to 0.");
+            throw new MyExceptions(400,
+                    "{\"Error\":\"" + "\"Seconds must be set to 0\"}");
         if (reservationBegin.getNano() != 0 || reservationEnd.getNano() != 0)
-            throw new MyExceptions("Nanoseconds must be set to 0.");
+            throw new MyExceptions(400,
+                    "{\"Error\":\"" + "\"Nanoseconds must be set to 0\"}");
         if (reservationBegin.isAfter(reservationEnd))
-            throw new MyExceptions("The end date is earlier than the start date.");
+            throw new MyExceptions(400,
+                    "{\"Error\":\"" + "\"The end date is earlier than the start date\"}");
         if (reservationBegin.plusMinutes(5).isAfter(reservationEnd))
-            throw new MyExceptions("Minimum rental time is 5 minutes.");
+            throw new MyExceptions(400,
+                    "{\"Error\":\"" + "\"Minimum rental time is 5 minutes\"}");
         if (reservationBegin.plusHours(2).isBefore(reservationEnd))
-            throw new MyExceptions("Maximum rental time is 2 hours.");
+            throw new MyExceptions(400,
+                    "{\"Error\":\"" + "\"Maximum rental time is 2 hours\"}");
         List<Reservation> reservationList = reservationRepository.findAll()
                 .stream()
                 .filter(tempReservation -> !tempReservation.getId().equals(id))
                 .collect(Collectors.toList());
         if (reservationList
                 .stream()
-                .anyMatch(date -> (reservationBegin.plusMinutes(1).isAfter(date.getBeginDate()) & reservationBegin.isBefore(date.getEndDate())))
-                || reservationList
+                .anyMatch(date -> (reservationBegin.plusMinutes(1).isAfter(date.getBeginDate()) && reservationBegin.isBefore(date.getEndDate())))
+                ||
+                reservationList
                 .stream()
-                .anyMatch(date -> (reservationBegin.isBefore(date.getBeginDate()) & reservationEnd.isAfter(date.getBeginDate()))))
-            throw new MyExceptions("Conference Room is already reserved at this time.");
+                .anyMatch(date -> (reservationBegin.isBefore(date.getBeginDate()) && reservationEnd.isAfter(date.getBeginDate()))))
+            throw new MyExceptions(409,
+                    "{\"Error\":\"" + "\"Conference Room is already reserved at this time\"}");
     }
 }

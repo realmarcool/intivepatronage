@@ -14,7 +14,7 @@ public class CheckingService {
             List<ObjectError> list = bindingResult.getAllErrors();
             StringBuilder sb = new StringBuilder();
             list.stream().forEach(t -> sb.append(t.getDefaultMessage()).append("."));
-            throw new MyExceptions(sb.toString());
+            throw new MyExceptions(400, "{\"Error\":\"" + sb.toString() + "\"}");
         }
     }
 }
