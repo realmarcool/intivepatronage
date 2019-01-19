@@ -5,5 +5,4 @@ import org.springframework.stereotype.Repository;
 import pl.marcool.intivepatronage.models.Organization;
 
 @Repository
-public interface OrganizationRepository extends CrudRepository<Organization, String> {
-}
+public interface OrganizationRepository extends CrudRepository<Organization, String> {}

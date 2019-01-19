@@ -2,7 +2,6 @@ package pl.marcool.intivepatronage.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import pl.marcool.intivepatronage.models.Reservation;
 import pl.marcool.intivepatronage.repositores.OrganizationRepository;
 import pl.marcool.intivepatronage.repositores.ReservationRepository;
@@ -15,19 +14,17 @@ import java.util.stream.Collectors;
 public class ReservationService {
 
     @Autowired
-    private ConferenceRoomService conferenceRoomService;
+    private RoomService roomService;
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
     private OrganizationRepository organizationRepository;
-    @Autowired
-    private CheckingService checkingService;
 
-    public Reservation save(Reservation reservation, BindingResult bindingResult) throws MyExceptions {
+    public Reservation save(Reservation reservation) throws MyExceptions {
         if (reservationRepository.findById(reservation.getId()).isPresent())
             throw new MyExceptions(400,
-                    "{\"Error\":\"'" + reservation.getId() + "' - already exist\"}");
-        isCommonConditionsCorrect("none", reservation, bindingResult);
+                    "{\"Error\":\"" + reservation.getId() + " - already exist\"}");
+        isCommonConditionsCorrect("none", reservation);
         return reservationRepository.save(reservation);
     }
 
@@ -38,21 +35,21 @@ public class ReservationService {
     public Reservation findById(String id) throws MyExceptions {
         return reservationRepository.findById(id)
                 .orElseThrow(() -> new MyExceptions(404,
-                        "{\"Error\":\"'" + id + "' - not found\"}"));
+                        "{\"Error\":\"" + id + " - not found\"}"));
     }
 
-    public Reservation update(String id, Reservation reservation, BindingResult bindingResult) throws MyExceptions {
+    public Reservation update(String id, Reservation reservation) throws MyExceptions {
         if (reservationRepository.findById(reservation.getId()).isPresent() & !id.equals(reservation.getId()))
             throw new MyExceptions(400,
-                    "{\"Error\":\"'" + reservation.getId() + "' - already exist\"}");
-        isCommonConditionsCorrect(findById(id).getId(), reservation, bindingResult);
+                    "{\"Error\":\"" + reservation.getId() + " - already exist\"}");
+        isCommonConditionsCorrect(findById(id).getId(), reservation);
         reservationRepository.deleteById(id);
         return reservationRepository.save(reservation);
     }
 
     public String deleteById(String id) throws MyExceptions {
         reservationRepository.deleteById(findById(id).getId());
-        return "{\"'" + id + "' - deleted\"}";
+        return "{\"" + id + " - deleted\"}";
     }
 
     public String deleteAll() {
@@ -60,9 +57,8 @@ public class ReservationService {
         return "{\"Entire Reservations database deleted\"}";
     }
 
-    private void isCommonConditionsCorrect(String id, Reservation reservation, BindingResult bindingResult) throws MyExceptions {
-        checkingService.checkBindingResult(bindingResult);
-        conferenceRoomService.findById(reservation.getConferenceRoomId());
+    private void isCommonConditionsCorrect(String id, Reservation reservation) throws MyExceptions {
+        roomService.findById(reservation.getConferenceRoomId());
         organizationRepository.findById(reservation.getOrganizationId());
         LocalDateTime reservationBegin = reservation.getBeginDate();
         LocalDateTime reservationEnd = reservation.getEndDate();

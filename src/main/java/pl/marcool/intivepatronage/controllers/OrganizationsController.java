@@ -1,8 +1,6 @@
 package pl.marcool.intivepatronage.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.marcool.intivepatronage.models.Organization;
 import pl.marcool.intivepatronage.services.OrganizationService;
@@ -10,40 +8,39 @@ import pl.marcool.intivepatronage.services.OrganizationService;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/organizations")
 public class OrganizationsController {
 
     @Autowired
     private OrganizationService organizationService;
 
-    @GetMapping("/organizations")
-    ResponseEntity getAll() {
-        return ResponseEntity.ok(organizationService.getAll());
+    @GetMapping
+    Iterable<Organization> getAll() {
+        return organizationService.getAll();
     }
 
-    @GetMapping("/organizations/id")
-    ResponseEntity getById(@RequestParam String id) {
-        return ResponseEntity.ok(organizationService.findById(id));
+    @GetMapping("/id")
+    Organization getById(@RequestParam String id) {
+        return organizationService.findById(id);
     }
 
-    @PostMapping("/organizations")
-    ResponseEntity save(@RequestBody @Valid Organization organization, BindingResult bindingResult) {
-        return ResponseEntity.ok(organizationService.save(organization, bindingResult));
+    @PostMapping
+    Organization save(@RequestBody @Valid Organization organization) {
+        return organizationService.save(organization);
     }
 
-    @PutMapping("/organizations/update")
-    ResponseEntity update(@RequestParam String id,
-                          @RequestBody @Valid Organization organization,
-                          BindingResult bindingResult) {
-        return ResponseEntity.ok(organizationService.update(id, organization, bindingResult));
+    @PutMapping("/update")
+    Organization update(@RequestParam String id, @RequestBody @Valid Organization organization) {
+        return organizationService.update(id, organization);
     }
 
     @DeleteMapping("/organizations/delete/id")
-    ResponseEntity delete(@RequestParam String id) {
-        return ResponseEntity.ok(organizationService.deleteById(id));
+    String delete(@RequestParam String id) {
+        return organizationService.deleteById(id);
     }
 
     @DeleteMapping("/organizations/delete/all")
-    ResponseEntity deleteAll() {
-        return ResponseEntity.ok(organizationService.deleteAll());
+    String deleteAll() {
+        return organizationService.deleteAll();
     }
 }

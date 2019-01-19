@@ -1,53 +1,46 @@
 package pl.marcool.intivepatronage.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.marcool.intivepatronage.models.ConferenceRoom;
-import pl.marcool.intivepatronage.services.CheckingService;
-import pl.marcool.intivepatronage.services.ConferenceRoomService;
+import pl.marcool.intivepatronage.models.Room;
+import pl.marcool.intivepatronage.services.RoomService;
 
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/rooms")
 public class ConferenceRoomsController {
 
     @Autowired
-    private ConferenceRoomService conferenceRoomService;
-    @Autowired
-    private CheckingService checkingService;
+    private RoomService roomService;
 
-    @GetMapping("/conferencerooms")
-    ResponseEntity getAll() {
-        return ResponseEntity.ok(conferenceRoomService.getAll());
+    @GetMapping
+    Iterable<Room> getAll() {
+        return roomService.getAll();
     }
 
-    @GetMapping("/conferencerooms/id")
-    ResponseEntity getById(@RequestParam String id) {
-        return ResponseEntity.ok(conferenceRoomService.findById(id));
+    @GetMapping("/id")
+    Room getById(@RequestParam String id) {
+        return roomService.findById(id);
     }
 
-    @PostMapping("/conferencerooms")
-    ResponseEntity save(@RequestBody @Valid ConferenceRoom conferenceRoom, BindingResult bindingResult) {
-        return ResponseEntity.ok(conferenceRoomService.save(conferenceRoom, bindingResult));
+    @PostMapping
+    Room save(@RequestBody @Valid Room room) {
+        return roomService.save(room);
     }
 
-    @PutMapping("/conferencerooms/update")
-    ResponseEntity update(@RequestParam String id,
-                          @RequestBody @Valid ConferenceRoom conferenceRoom,
-                          BindingResult bindingResult) {
-        return ResponseEntity.ok().body(conferenceRoomService.update(id, conferenceRoom));
+    @PutMapping("/update")
+    Room update(@RequestParam String id, @RequestBody @Valid Room room) {
+        return roomService.update(id, room);
     }
 
-
-    @DeleteMapping("/conferencerooms/delete/id")
-    ResponseEntity delete(@RequestParam String id){
-        return ResponseEntity.ok().body(conferenceRoomService.deleteById(id));
+    @DeleteMapping("/delete/id")
+    String delete(@RequestParam String id){
+        return roomService.deleteById(id);
     }
 
-    @DeleteMapping("/conferencerooms/delete/all")
-    ResponseEntity deleteAll() {
-        return ResponseEntity.ok(conferenceRoomService.deleteAll());
+    @DeleteMapping("/delete/all")
+    String deleteAll() {
+        return roomService.deleteAll();
     }
 }

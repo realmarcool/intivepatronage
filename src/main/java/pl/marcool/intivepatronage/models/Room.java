@@ -1,6 +1,7 @@
 package pl.marcool.intivepatronage.models;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.validation.BindingResult;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-public class ConferenceRoom {
+public class Room {
 
     @NotBlank(message = "Name must not be null and can't consist of only white characters")
     @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
@@ -40,12 +41,12 @@ public class ConferenceRoom {
     @Pattern(regexp = "USB|bluetooth", message = "The phone interface can only have one of two values: 'USB' or 'bluetooth")
     private String communicationInterface;
 
-    public ConferenceRoom() {
+    public Room() {
     }
 
     @Override
     public String toString() {
-        return "ConferenceRoom{" +
+        return "Room{" +
                 "name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 ", floor=" + floor +

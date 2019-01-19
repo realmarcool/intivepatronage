@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, String> {
-
     List<Reservation> findAll();
 }

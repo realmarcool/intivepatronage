@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.marcool.intivepatronage.services.MyExceptions;
 
+
 @RestControllerAdvice
 public class ExceptionController {
 
@@ -12,5 +13,6 @@ public class ExceptionController {
     ResponseEntity ExceptionHandler(MyExceptions ex) {
         return ResponseEntity.status(ex.errorCode).body(ex.getMessage());
     }
+
 }
 
