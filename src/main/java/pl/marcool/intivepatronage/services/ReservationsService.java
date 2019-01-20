@@ -3,48 +3,54 @@ package pl.marcool.intivepatronage.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.Reservation;
+import pl.marcool.intivepatronage.models.dto.ReservationDTO;
 import pl.marcool.intivepatronage.repositores.OrganizationRepository;
 import pl.marcool.intivepatronage.repositores.ReservationRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 
 @Service
-public class ReservationService {
+public class ReservationsService {
 
     @Autowired
-    private RoomService roomService;
+    private RoomsService roomsService;
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
     private OrganizationRepository organizationRepository;
 
-    public Reservation save(Reservation reservation) throws MyExceptions {
+    public ReservationDTO save(ReservationDTO reservationDTO) throws MyExceptions {
+        Reservation reservation = dtoToReservation(reservationDTO);
         if (reservationRepository.findById(reservation.getId()).isPresent())
             throw new MyExceptions(400,
                     "{\"Error\":\"" + reservation.getId() + " - already exist\"}");
         isCommonConditionsCorrect("none", reservation);
-        return reservationRepository.save(reservation);
+        return reservationToDTO(reservationRepository.save(reservation));
     }
 
-    public Iterable<Reservation> getAll() {
-        return reservationRepository.findAll();
+    public List<ReservationDTO> getAll() {
+        return StreamSupport.stream(reservationRepository.findAll().spliterator(), false)
+                .map(t -> reservationToDTO(t))
+                .collect(Collectors.toList());
     }
 
-    public Reservation findById(String id) throws MyExceptions {
-        return reservationRepository.findById(id)
-                .orElseThrow(() -> new MyExceptions(404,
-                        "{\"Error\":\"" + id + " - not found\"}"));
+    public ReservationDTO findById(String id) throws MyExceptions {
+        return reservationToDTO(reservationRepository.findById(id)
+                .orElseThrow(() -> new MyExceptions(400,"{\"Error\":\"" + id + " - not found\"}")));
     }
 
-    public Reservation update(String id, Reservation reservation) throws MyExceptions {
+    public ReservationDTO update(String id, ReservationDTO reservationDTO) throws MyExceptions {
+        Reservation reservation = dtoToReservation(reservationDTO);
         if (reservationRepository.findById(reservation.getId()).isPresent() & !id.equals(reservation.getId()))
             throw new MyExceptions(400,
                     "{\"Error\":\"" + reservation.getId() + " - already exist\"}");
         isCommonConditionsCorrect(findById(id).getId(), reservation);
         reservationRepository.deleteById(id);
-        return reservationRepository.save(reservation);
+        return reservationToDTO(reservationRepository.save(reservation));
     }
 
     public String deleteById(String id) throws MyExceptions {
@@ -58,12 +64,12 @@ public class ReservationService {
     }
 
     private void isCommonConditionsCorrect(String id, Reservation reservation) throws MyExceptions {
-        roomService.findById(reservation.getConferenceRoomId());
+        roomsService.findById(reservation.getConferenceRoomId());
         organizationRepository.findById(reservation.getOrganizationId());
         LocalDateTime reservationBegin = reservation.getBeginDate();
         LocalDateTime reservationEnd = reservation.getEndDate();
         if (reservationBegin.getSecond() != 0 || reservationEnd.getSecond() != 0)
-            throw new MyExceptions(400,
+            throw new IllegalArgumentException(
                     "{\"Error\":\"" + "\"Seconds must be set to 0\"}");
         if (reservationBegin.getNano() != 0 || reservationEnd.getNano() != 0)
             throw new MyExceptions(400,
@@ -86,9 +92,29 @@ public class ReservationService {
                 .anyMatch(date -> (reservationBegin.plusMinutes(1).isAfter(date.getBeginDate()) && reservationBegin.isBefore(date.getEndDate())))
                 ||
                 reservationList
-                .stream()
-                .anyMatch(date -> (reservationBegin.isBefore(date.getBeginDate()) && reservationEnd.isAfter(date.getBeginDate()))))
+                        .stream()
+                        .anyMatch(date -> (reservationBegin.isBefore(date.getBeginDate()) && reservationEnd.isAfter(date.getBeginDate()))))
             throw new MyExceptions(409,
                     "{\"Error\":\"" + "\"Conference Room is already reserved at this time\"}");
+    }
+
+    //ObjectMapper doesn't work with dates, need to manually rewrite fields
+    Reservation dtoToReservation(ReservationDTO reservationDTO){
+        Reservation reservation = new Reservation();
+        reservation.setBeginDate(reservationDTO.getBeginDate());
+        reservation.setEndDate(reservationDTO.getEndDate());
+        reservation.setConferenceRoomId(reservationDTO.getConferenceRoomId());
+        reservation.setId(reservationDTO.getId());
+        reservation.setOrganizationId(reservationDTO.getOrganizationId());
+        return reservation;
+    }
+    ReservationDTO reservationToDTO(Reservation reservation){
+        ReservationDTO reservationDTO = new ReservationDTO();
+        reservationDTO.setBeginDate(reservation.getBeginDate());
+        reservationDTO.setEndDate(reservation.getEndDate());
+        reservationDTO.setConferenceRoomId(reservation.getConferenceRoomId());
+        reservationDTO.setId(reservation.getId());
+        reservationDTO.setOrganizationId(reservation.getOrganizationId());
+        return reservationDTO;
     }
 }

@@ -2,45 +2,46 @@ package pl.marcool.intivepatronage.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.marcool.intivepatronage.models.Reservation;
-import pl.marcool.intivepatronage.services.ReservationService;
+import pl.marcool.intivepatronage.models.dto.ReservationDTO;
+import pl.marcool.intivepatronage.services.ReservationsService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/reservations")
 public class ReservationsController {
 
     @Autowired
-    private ReservationService reservationService;
+    private ReservationsService reservationsService;
 
     @GetMapping
-    Iterable<Reservation> getAll() {
-        return reservationService.getAll();
+    List<ReservationDTO> getAll() {
+        return reservationsService.getAll();
     }
 
-    @GetMapping("/id")
-    Reservation getById(@RequestParam String id) {
-        return reservationService.findById(id);
+    @GetMapping("{id}")
+    ReservationDTO getById(@PathVariable String id) {
+        return reservationsService.findById(id);
     }
 
     @PostMapping
-    Reservation save(@RequestBody @Valid Reservation reservation) {
-        return reservationService.save(reservation);
+    ReservationDTO save(@RequestBody @Valid ReservationDTO reservationDTO) {
+        return reservationsService.save(reservationDTO);
     }
 
-    @PutMapping("/update")
-    Reservation update(@RequestParam String id, @RequestBody @Valid Reservation reservation) {
-        return reservationService.update(id, reservation);
+    @PutMapping("{id}")
+    ReservationDTO update(@PathVariable String id, @RequestBody @Valid ReservationDTO reservationDTO) {
+        return reservationsService.update(id, reservationDTO);
     }
 
-    @DeleteMapping("/delete/id")
-    String delete(@RequestParam String id) {
-        return reservationService.deleteById(id);
+    @DeleteMapping("{id}")
+    String delete(@PathVariable String id) {
+        return reservationsService.deleteById(id);
     }
 
-    @DeleteMapping("/delete/all")
+    @DeleteMapping
     String deleteAll() {
-        return reservationService.deleteAll();
+        return reservationsService.deleteAll();
     }
 }

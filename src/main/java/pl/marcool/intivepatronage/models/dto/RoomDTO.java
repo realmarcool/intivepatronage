@@ -1,14 +1,23 @@
-package pl.marcool.intivepatronage.models;
+package pl.marcool.intivepatronage.models.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.hibernate.validator.constraints.Range;
 
-@Entity
-public class Room {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+public class RoomDTO {
+    @NotBlank(message = "Name must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
     private String name;
-    @Id
+
+    @NotBlank(message = "ID must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
     private String id;
+
+    @Range(min = 0, max = 10, message = "Floor must be between 0 and 10")
+    @NotNull(message = "You must enter the floor")
     private int floor;
     private boolean availability;
     private int seating;
@@ -17,31 +26,15 @@ public class Room {
     private int hammock;
     private String projector;
     private boolean phone;
+
+    @Range(min = 0, max = 99, message = "Internal number must be between 0 and 99")
     private int phoneInNumber;
+
+    @Pattern(regexp = "\\++[0-9]{2}+\\s+[0-9]{9}", message = "The external number must have 13 characters in the format +12 123456789")
     private String phoneOutNumber;
+
+    @Pattern(regexp = "USB|bluetooth", message = "The phone interface can only have one of two values: 'USB' or 'bluetooth")
     private String communicationInterface;
-
-    public Room() {
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", floor=" + floor +
-                ", availability=" + availability +
-                ", seating=" + seating +
-                ", standingPlace=" + standingPlace +
-                ", lyingPlace=" + lyingPlace +
-                ", hammock=" + hammock +
-                ", projector='" + projector + '\'' +
-                ", phone=" + phone +
-                ", phoneInNumber=" + phoneInNumber +
-                ", phoneOutNumber='" + phoneOutNumber + '\'' +
-                ", communicationInterface='" + communicationInterface + '\'' +
-                '}';
-    }
 
     public String getName() {
         return name;
@@ -52,7 +45,7 @@ public class Room {
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(String id) {
@@ -145,5 +138,24 @@ public class Room {
 
     public void setCommunicationInterface(String communicationInterface) {
         this.communicationInterface = communicationInterface;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomDTO{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", floor=" + floor +
+                ", availability=" + availability +
+                ", seating=" + seating +
+                ", standingPlace=" + standingPlace +
+                ", lyingPlace=" + lyingPlace +
+                ", hammock=" + hammock +
+                ", projector='" + projector + '\'' +
+                ", phone=" + phone +
+                ", phoneInNumber=" + phoneInNumber +
+                ", phoneOutNumber='" + phoneOutNumber + '\'' +
+                ", communicationInterface='" + communicationInterface + '\'' +
+                '}';
     }
 }

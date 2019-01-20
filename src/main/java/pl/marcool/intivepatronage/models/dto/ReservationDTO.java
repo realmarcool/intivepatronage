@@ -1,21 +1,30 @@
-package pl.marcool.intivepatronage.models;
+package pl.marcool.intivepatronage.models.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Entity
-public class Reservation {
-
-    @Id
+public class ReservationDTO {
+    @NotBlank(message = "ID must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
     private String id;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @NotNull(message = "Enter beginDate")
     private LocalDateTime beginDate;
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @NotNull(message = "Enter endDate")
     private LocalDateTime endDate;
+    @NotNull(message = "Enter Organization ID")
     private String organizationId;
+    @NotNull(message = "Enter Conference Room ID")
     private String conferenceRoomId;
 
-    public Reservation() {
+    public ReservationDTO() {
     }
 
     public String getId() {
@@ -74,3 +83,4 @@ public class Reservation {
                 '}';
     }
 }
+

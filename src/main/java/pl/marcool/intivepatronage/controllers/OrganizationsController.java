@@ -2,8 +2,8 @@ package pl.marcool.intivepatronage.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.marcool.intivepatronage.models.Organization;
-import pl.marcool.intivepatronage.services.OrganizationService;
+import pl.marcool.intivepatronage.models.dto.OrganizationDTO;
+import pl.marcool.intivepatronage.services.OrganizationsService;
 
 import javax.validation.Valid;
 
@@ -12,35 +12,35 @@ import javax.validation.Valid;
 public class OrganizationsController {
 
     @Autowired
-    private OrganizationService organizationService;
+    private OrganizationsService organizationsService;
 
     @GetMapping
-    Iterable<Organization> getAll() {
-        return organizationService.getAll();
+    Iterable<OrganizationDTO> getAll() {
+        return organizationsService.getAll();
     }
 
-    @GetMapping("/id")
-    Organization getById(@RequestParam String id) {
-        return organizationService.findById(id);
+    @GetMapping("{id}")
+    OrganizationDTO getById(@PathVariable String id) {
+        return organizationsService.findById(id);
     }
 
     @PostMapping
-    Organization save(@RequestBody @Valid Organization organization) {
-        return organizationService.save(organization);
+    OrganizationDTO save(@RequestBody @Valid OrganizationDTO organization) {
+        return organizationsService.save(organization);
     }
 
-    @PutMapping("/update")
-    Organization update(@RequestParam String id, @RequestBody @Valid Organization organization) {
-        return organizationService.update(id, organization);
+    @PutMapping("{id}")
+    OrganizationDTO update(@PathVariable String id, @RequestBody @Valid OrganizationDTO organizationDTO) {
+        return organizationsService.update(id, organizationDTO);
     }
 
-    @DeleteMapping("/organizations/delete/id")
-    String delete(@RequestParam String id) {
-        return organizationService.deleteById(id);
+    @DeleteMapping("{id}")
+    String delete(@PathVariable String id) {
+        return organizationsService.deleteById(id);
     }
 
-    @DeleteMapping("/organizations/delete/all")
+    @DeleteMapping
     String deleteAll() {
-        return organizationService.deleteAll();
+        return organizationsService.deleteAll();
     }
 }
