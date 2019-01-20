@@ -59,24 +59,24 @@ ODCZYT WSZYSTKICH SAL KONFERENCYJNYCH:
 curl -X GET http://localhost:8080/conferencerooms
 
 
-ODCZYT SALI KONFERENCYJNEJ PO ID:
+ODCZYT SALI KONFERENCYJNEJ PO ID (CR1):
 
-curl -X GET 'http://localhost:8080/conferencerooms/id?id=CR1'
-
-
-UPDATE SALI KONFERENCYJNEJ PO ID:
-
-curl -X PUT 'http://localhost:8080/conferencerooms/update?id=CR1' -H 'Content-Type: application/json' -d @payload.json
+curl -X GET 'http://localhost:8080/conferencerooms/CR1'
 
 
-SKASOWANIE SALI KONFERENCYJNEJ PO ID:
+UPDATE SALI KONFERENCYJNEJ PO ID (CR1):
 
-curl -X DELETE 'http://localhost:8080/conferencerooms/delete/id?id=CR2'
+curl -X PUT 'http://localhost:8080/conferencerooms/CR1' -H 'Content-Type: application/json' -d @payload.json
+
+
+SKASOWANIE SALI KONFERENCYJNEJ PO ID (CR2):
+
+curl -X DELETE 'http://localhost:8080/conferencerooms/CR2'
 
 
 SKASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X DELETE http://localhost:8080/conferencerooms/delete/all
+curl -X DELETE http://localhost:8080/conferencerooms
 
 ******************************************************************
 
@@ -92,24 +92,24 @@ ODCZYT WSZYSTKICH ORGANIZACJI:
 curl -X GET http://localhost:8080/organizations
 
 
-ODCZYT ORGANIZACJI PO NAZWIE:
+ODCZYT ORGANIZACJI PO NAZWIE (Organizacja1):
 
-curl -X GET 'http://localhost:8080/organizations/id?id=Organizacja1'
-
-
-UPDATE ORGANIZACJI PO NAZWIE:
-
-curl -X PUT 'http://localhost:8080/organizations/update?id=Organizacja1' -H 'Content-Type: application/json' -d '{"name":"Organizacja2"}'
+curl -X GET 'http://localhost:8080/organizations/Organizacja1'
 
 
-SKASOWANIE SALI KONFERENCYJNEJ PO NAZWIE:
+UPDATE ORGANIZACJI PO NAZWIE (Organizacja1):
 
-curl -X DELETE 'http://localhost:8080/organizations/delete/id?id=Organizacja2'
+curl -X PUT 'http://localhost:8080/organizations/Organizacja1' -H 'Content-Type: application/json' -d '{"name":"Organizacja2"}'
+
+
+SKASOWANIE SALI KONFERENCYJNEJ PO NAZWIE (Organizacja2):
+
+curl -X DELETE 'http://localhost:8080/organizations/Organizacja2'
 
 
 KASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X DELETE http://localhost:8080/organizations/delete/all
+curl -X DELETE http://localhost:8080/organizations
 
 ******************************************************************
 
@@ -133,22 +133,21 @@ ODCZYT WSZYSTKICH REZERWACJI:
 curl -X GET http://localhost:8080/reservations
 
 
-ODCZYT REZERWACJI PO ID:
+ODCZYT REZERWACJI PO ID (Rezerwacja1):
 
-curl -X GET 'http://localhost:8080/reservations/id?id=Rezerwacja1'
-
-
-UPDATE REZERWACJI PO ID:
-
-curl -X PUT 'http://localhost:8080/reservations/update?id=Rezerwacja1' -H 'Content-Type: application/json' -d@payload.json
+curl -X GET 'http://localhost:8080/reservations/Rezerwacja1'
 
 
-SKASOWANIE REZERWACJI PO ID:
+UPDATE REZERWACJI PO ID (Rezerwacja1):
 
-curl -X DELETE 'http://localhost:8080/reservations/delete/id?id=Rezerwacja2'
+curl -X PUT 'http://localhost:8080/reservations/Rezerwacja1' -H 'Content-Type: application/json' -d@payload.json
+
+
+SKASOWANIE REZERWACJI PO ID (Rezerwacja2):
+
+curl -X DELETE 'http://localhost:8080/reservations/Rezerwacja2'
 
 
 SKASOWANIE WSZYSTKICH REZERWACJI:
 
-curl -X DELETE http://localhost:8080/reservations/delete/all
-
+curl -X DELETE http://localhost:8080/reservations
