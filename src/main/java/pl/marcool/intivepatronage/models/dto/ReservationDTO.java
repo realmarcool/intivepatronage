@@ -1,26 +1,20 @@
 package pl.marcool.intivepatronage.models.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class ReservationDTO {
     @NotBlank(message = "Reservation ID must not be null and can't consist of only white characters")
     @Size(min = 2, max = 20, message = "Reservation ID must be between 2 and 20 characters long")
     private String id;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @NotNull(message = "Enter beginDate")
-    private LocalDateTime beginDate;
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @Pattern(regexp = "[2]+[0]+[1-2]+[0-9]+\\-+[0-1]+[0-9]+\\-+[0-3]+[0-9]+\\s+[0-2]+[0-9]+\\:+[0-5]+[0-9]", message = "Begin date must be in the format YYYY-MM-DD HH:mm")
+    private String beginDate;
     @NotNull(message = "Enter endDate")
-    private LocalDateTime endDate;
+    @Pattern(regexp = "[2]+[0]+[1-2]+[0-9]+\\-+[0-1]+[0-9]+\\-+[0-3]+[0-9]+\\s+[0-2]+[0-9]+\\:+[0-5]+[0-9]", message = "Begin date must be in the format YYYY-MM-DD HH:mm")
+    private String endDate;
     @NotNull(message = "Enter Organization ID")
     private String organizationId;
     @NotNull(message = "Enter Room ID")
@@ -37,19 +31,19 @@ public class ReservationDTO {
         this.id = id;
     }
 
-    public LocalDateTime getBeginDate() {
+    public String getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(LocalDateTime beginDate) {
+    public void setBeginDate(String beginDate) {
         this.beginDate = beginDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

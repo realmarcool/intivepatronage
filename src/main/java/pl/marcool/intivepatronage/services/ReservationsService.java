@@ -7,10 +7,10 @@ import pl.marcool.intivepatronage.models.dto.ReservationDTO;
 import pl.marcool.intivepatronage.repositores.ReservationRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 
 @Service
 public class ReservationsService {
@@ -24,11 +24,11 @@ public class ReservationsService {
 
     public ReservationDTO save(ReservationDTO reservationDTO) throws IllegalArgumentException {
         Reservation reservation = dtoToReservation(reservationDTO);
-        System.out.println(reservation);
         if (reservationRepository.findById(reservation.getId()).isPresent())
             throw new IllegalArgumentException(reservation.getId() + " - already exist");
         isCommonConditionsCorrect("none", reservation);
-        return reservationToDTO(reservationRepository.save(reservation));
+        reservationRepository.save(reservation);
+        return reservationDTO;
     }
 
     public List<ReservationDTO> getAll() {
@@ -66,10 +66,6 @@ public class ReservationsService {
         organizationsService.findById(reservation.getOrganizationId());
         LocalDateTime reservationBegin = reservation.getBeginDate();
         LocalDateTime reservationEnd = reservation.getEndDate();
-        if (reservationBegin.getSecond() != 0 || reservationEnd.getSecond() != 0)
-            throw new IllegalArgumentException("Seconds must be set to 0");
-        if (reservationBegin.getNano() != 0 || reservationEnd.getNano() != 0)
-            throw new IllegalArgumentException("Nanoseconds must be set to 0");
         if (reservationBegin.isAfter(reservationEnd))
             throw new IllegalArgumentException("The end date is earlier than the start date");
         if (reservationBegin.plusMinutes(5).isAfter(reservationEnd))
@@ -91,19 +87,23 @@ public class ReservationsService {
     }
 
     //ObjectMapper doesn't work with dates, need to manually rewrite fields
-    Reservation dtoToReservation(ReservationDTO reservationDTO){
+    DateTimeFormatter stringToDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    DateTimeFormatter dateToString = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    Reservation dtoToReservation(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation();
-        reservation.setBeginDate(reservationDTO.getBeginDate());
-        reservation.setEndDate(reservationDTO.getEndDate());
+        reservation.setBeginDate(LocalDateTime.parse(reservationDTO.getBeginDate(), stringToDate));
+        reservation.setEndDate(LocalDateTime.parse(reservationDTO.getEndDate(), stringToDate));
         reservation.setConferenceRoomId(reservationDTO.getConferenceRoomId());
         reservation.setId(reservationDTO.getId());
         reservation.setOrganizationId(reservationDTO.getOrganizationId());
         return reservation;
     }
-    ReservationDTO reservationToDTO(Reservation reservation){
+
+    ReservationDTO reservationToDTO(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();
-        reservationDTO.setBeginDate(reservation.getBeginDate());
-        reservationDTO.setEndDate(reservation.getEndDate());
+        reservationDTO.setBeginDate(reservation.getBeginDate().format(dateToString));
+        reservationDTO.setEndDate(reservation.getEndDate().format(dateToString));
         reservationDTO.setConferenceRoomId(reservation.getConferenceRoomId());
         reservationDTO.setId(reservation.getId());
         reservationDTO.setOrganizationId(reservation.getOrganizationId());

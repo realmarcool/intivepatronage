@@ -12,6 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.marcool.intivepatronage.models.ApiError;
 
+import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +28,21 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(apiError.getStatus()).body(apiError);
     }
 
-//    @ExceptionHandler({ Exception.class })
-//    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
-//        ApiError apiError = new ApiError(
-//                HttpStatus.INTERNAL_SERVER_ERROR, "error occurred");
-//        return new ResponseEntity<Object>(
-//                apiError, new HttpHeaders(), apiError.getStatus());
-//    }
+    @ExceptionHandler(DateTimeException.class)
+    ResponseEntity BadTimeDate(IllegalStateException ex) {
+        String message = ex.getMessage();
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, message);
+        return ResponseEntity.status(apiError.getStatus()).body(apiError);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        ApiError apiError = new ApiError(
+                HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        return new ResponseEntity<Object>(
+                apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
