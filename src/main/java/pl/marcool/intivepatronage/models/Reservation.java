@@ -3,7 +3,6 @@ package pl.marcool.intivepatronage.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Reservation {
@@ -58,19 +57,14 @@ public class Reservation {
         this.conferenceRoomId = conferenceRoomId;
     }
 
-    private DateTimeFormatter dataFormat() {
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    }
-
     @Override
     public String toString() {
-
         return "Reservation{" +
-                "id= '" + id + '\'' +
-                ", beginDate= " + beginDate.format(dataFormat()) +
-                ", endDate= " + endDate.format(dataFormat()) +
-                ", organizationId= '" + organizationId + '\'' +
-                ", conferenceRoomId= '" + conferenceRoomId + '\'' +
+                "id='" + id + '\'' +
+                ", beginDate=" + beginDate +
+                ", endDate=" + endDate +
+                ", organizationId='" + organizationId + '\'' +
+                ", conferenceRoomId='" + conferenceRoomId + '\'' +
                 '}';
     }
 }

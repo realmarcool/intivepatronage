@@ -8,12 +8,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class RoomDTO {
-    @NotBlank(message = "Name must not be null and can't consist of only white characters")
-    @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters long")
+    @NotBlank(message = "Room name must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "Room name must be between 2 and 20 characters long")
     private String name;
 
-    @NotBlank(message = "ID must not be null and can't consist of only white characters")
-    @Size(min = 2, max = 20, message = "ID must be between 2 and 20 characters long")
+    @NotBlank(message = "Room ID must not be null and can't consist of only white characters")
+    @Size(min = 2, max = 20, message = "Room ID must be between 2 and 20 characters long")
     private String id;
 
     @Range(min = 0, max = 10, message = "Floor must be between 0 and 10")

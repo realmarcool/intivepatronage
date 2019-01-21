@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.marcool.intivepatronage.services.ApiError;
-import pl.marcool.intivepatronage.services.MyExceptions;
+import pl.marcool.intivepatronage.models.ApiError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,27 +18,22 @@ import java.util.List;
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(MyExceptions.class)
-    ResponseEntity ExceptionHandler(MyExceptions ex) {
-        return ResponseEntity.status(ex.errorCode).body(ex.getMessage());
-    }
-
     @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity exceptions2(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body("Couse:" + ex.getCause()
-                + "\nLocalizedMessage:" + ex.getLocalizedMessage()
-                + "\nMessage:" + ex.getMessage()
-                + "\nStackTrace" + ex.getStackTrace().toString()
-                + "\nSuppressed" + ex.getSuppressed().toString());
+    ResponseEntity ExceptionHandler(IllegalArgumentException ex) {
+        String message = ex.getMessage();
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, message);
+        if (message.contains("found")) apiError.setStatus(HttpStatus.NOT_FOUND);
+        if (message.contains("already")) apiError.setStatus(HttpStatus.CONFLICT);
+        return ResponseEntity.status(apiError.getStatus()).body(apiError);
     }
 
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
-        ApiError apiError = new ApiError(
-                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
-        return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
+//    @ExceptionHandler({ Exception.class })
+//    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+//        ApiError apiError = new ApiError(
+//                HttpStatus.INTERNAL_SERVER_ERROR, "error occurred");
+//        return new ResponseEntity<Object>(
+//                apiError, new HttpHeaders(), apiError.getStatus());
+//    }
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -53,7 +47,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, errors);
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
     }
 

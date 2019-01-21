@@ -19,11 +19,10 @@ public class OrganizationsService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public OrganizationDTO save(OrganizationDTO organizationDTO) throws MyExceptions {
+    public OrganizationDTO save(OrganizationDTO organizationDTO) throws IllegalArgumentException {
         Organization organization = objectMapper.convertValue(organizationDTO, Organization.class);
         if (organizationRepository.findById(organization.getName()).isPresent())
-            throw new MyExceptions(400,
-                    "{\"Error\":\"" + organization.getName() + " - already exist\"}");
+            throw new IllegalArgumentException(organization.getName() + " - already exist");
         return objectMapper.convertValue(organizationRepository.save(organization), OrganizationDTO.class);
     }
 
@@ -33,22 +32,20 @@ public class OrganizationsService {
                 .collect(Collectors.toList());
     }
 
-    public OrganizationDTO findById(String id) throws MyExceptions {
+    public OrganizationDTO findById(String id) throws IllegalArgumentException {
         return objectMapper.convertValue(organizationRepository.findById(id)
-                .orElseThrow(() -> new MyExceptions(404,
-                        "{\"Error\":\"" + id + " - not found\"}")), OrganizationDTO.class);
+                .orElseThrow(() -> new IllegalArgumentException(id + " - not found")), OrganizationDTO.class);
     }
 
-    public OrganizationDTO update(String id, OrganizationDTO organizationDTO) throws MyExceptions {
+    public OrganizationDTO update(String id, OrganizationDTO organizationDTO) throws IllegalArgumentException {
         Organization organization = objectMapper.convertValue(organizationDTO, Organization.class);
         if (organizationRepository.findById(organization.getName()).isPresent())
-            throw new MyExceptions(400,
-                    "{\"Error\":\"" + organization.getName() + " - already exist\"}");
+            throw new IllegalArgumentException(organization.getName() + " - already exist");
         organizationRepository.deleteById(findById(id).getName());
         return objectMapper.convertValue(organizationRepository.save(organization), OrganizationDTO.class);
     }
 
-    public String deleteById(String id) throws MyExceptions {
+    public String deleteById(String id) throws IllegalArgumentException {
         organizationRepository.deleteById(findById(id).getName());
         return "{\"" + id + " - deleted\"}";
     }

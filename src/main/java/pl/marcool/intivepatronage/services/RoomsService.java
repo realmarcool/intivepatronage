@@ -19,14 +19,12 @@ public class RoomsService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public RoomDTO save(RoomDTO roomDTO) throws MyExceptions {
+    public RoomDTO save(RoomDTO roomDTO) throws IllegalArgumentException {
         Room room = objectMapper.convertValue(roomDTO, Room.class);
         if (roomRepository.findById(room.getId()).isPresent())
-            throw new MyExceptions(400,
-                    "{\"Error\":\"" + room.getId() + " - already exist\"}");
+            throw new IllegalArgumentException(room.getId() + " - already exist");
         if (roomRepository.findByName(room.getName()).isPresent())
-            throw new MyExceptions(400,
-                    "{\"Error\":\"" + room.getName() + " - already exists\"}");
+            throw new IllegalArgumentException(room.getName() + " - already exists");
         return objectMapper.convertValue(roomRepository.save(room), RoomDTO.class);
     }
 
@@ -36,22 +34,20 @@ public class RoomsService {
                 .collect(Collectors.toList());
     }
 
-    public RoomDTO findById(String id) throws MyExceptions {
+    public RoomDTO findById(String id) throws IllegalArgumentException {
         return objectMapper.convertValue(roomRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "{\"Error\":\"" + id + " - not found\"}")), RoomDTO.class);
+                .orElseThrow(() -> new IllegalArgumentException(id + " - not found")), RoomDTO.class);
     }
 
-    public RoomDTO update(String id, RoomDTO roomDTO) throws MyExceptions {
+    public RoomDTO update(String id, RoomDTO roomDTO) throws IllegalArgumentException {
         Room room = objectMapper.convertValue(roomDTO, Room.class);
         if (roomRepository.findByName(room.getName()).isPresent())
-            throw new MyExceptions(400,
-                    "{\"Error\":\"" + room.getName() + " - already exist\"}");
+            throw new IllegalArgumentException(room.getName() + " - already exist");
         roomRepository.deleteById(findById(id).getId());
         return objectMapper.convertValue(roomRepository.save(room), RoomDTO.class);
     }
 
-    public String deleteById(String id) throws MyExceptions {
+    public String deleteById(String id) throws IllegalArgumentException {
         roomRepository.deleteById(findById(id).getId());
         return "{\"" + id + " - deleted\"}";
     }
