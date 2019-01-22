@@ -121,8 +121,8 @@ curl -X POST http://localhost:8080/reservations -H 'Content-Type: application/js
 
 zawartość payload.json
 {"id" : "Rezerwacja1",
-"beginDate" : "2019-01-01T13:00",
-"endDate" : "2019-01-01T14:00",
+"beginDate" : "2019-01-01 13:00",
+"endDate" : "2019-01-01 14:00",
 "organizationId" : "Organizacja1",
 "conferenceRoomId" : "CR1"
 }
