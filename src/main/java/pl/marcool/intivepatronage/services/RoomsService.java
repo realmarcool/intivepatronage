@@ -20,11 +20,13 @@ public class RoomsService {
     private ObjectMapper objectMapper;
 
     public RoomDTO save(RoomDTO roomDTO) throws IllegalArgumentException {
-        Room room = objectMapper.convertValue(roomDTO, Room.class);
-        if (roomRepository.findById(room.getId()).isPresent())
+        var room = objectMapper.convertValue(roomDTO, Room.class);
+        if (roomRepository.findById(room.getId()).isPresent()) {
             throw new IllegalArgumentException(room.getId() + " - already exist");
-        if (roomRepository.findByName(room.getName()).isPresent())
+        }
+        if (roomRepository.findByName(room.getName()).isPresent()) {
             throw new IllegalArgumentException(room.getName() + " - already exists");
+        }
         return objectMapper.convertValue(roomRepository.save(room), RoomDTO.class);
     }
 
@@ -40,20 +42,19 @@ public class RoomsService {
     }
 
     public RoomDTO update(String id, RoomDTO roomDTO) throws IllegalArgumentException {
-        Room room = objectMapper.convertValue(roomDTO, Room.class);
-        if (roomRepository.findByName(room.getName()).isPresent())
+        var room = objectMapper.convertValue(roomDTO, Room.class);
+        if (roomRepository.findByName(room.getName()).isPresent()) {
             throw new IllegalArgumentException(room.getName() + " - already exist");
+        }
         roomRepository.deleteById(findById(id).getId());
         return objectMapper.convertValue(roomRepository.save(room), RoomDTO.class);
     }
 
-    public String deleteById(String id) throws IllegalArgumentException {
+    public void deleteById(String id) throws IllegalArgumentException {
         roomRepository.deleteById(findById(id).getId());
-        return "{\"" + id + " - deleted\"}";
     }
 
-    public String deleteAll() {
+    public void deleteAll() {
         roomRepository.deleteAll();
-        return "{\"Entire Conference Room database deleted\"}";
     }
 }

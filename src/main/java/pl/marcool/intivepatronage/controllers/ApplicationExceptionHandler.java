@@ -17,27 +17,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class ExceptionController extends ResponseEntityExceptionHandler {
+public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity ExceptionHandler(IllegalArgumentException ex) {
-        String message = ex.getMessage();
+        var message = ex.getMessage();
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, message);
-        if (message.contains("found")) apiError.setStatus(HttpStatus.NOT_FOUND);
-        if (message.contains("already")) apiError.setStatus(HttpStatus.CONFLICT);
+        if (message.contains("found")) {
+            apiError.setStatus(HttpStatus.NOT_FOUND);
+        }
+        if (message.contains("already")) {
+            apiError.setStatus(HttpStatus.CONFLICT);
+        }
         return ResponseEntity.status(apiError.getStatus()).body(apiError);
     }
 
     @ExceptionHandler(DateTimeException.class)
     ResponseEntity BadTimeDate(IllegalStateException ex) {
-        String message = ex.getMessage();
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, message);
+        var message = ex.getMessage();
+        var apiError = new ApiError(HttpStatus.BAD_REQUEST, message);
         return ResponseEntity.status(apiError.getStatus()).body(apiError);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
-        ApiError apiError = new ApiError(
+        var apiError = new ApiError(
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         return new ResponseEntity<Object>(
                 apiError, new HttpHeaders(), apiError.getStatus());
@@ -56,9 +60,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, errors);
+        var apiError = new ApiError(HttpStatus.BAD_REQUEST, errors);
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
     }
-
 }
-

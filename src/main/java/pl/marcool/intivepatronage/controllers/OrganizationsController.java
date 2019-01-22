@@ -35,12 +35,12 @@ public class OrganizationsController {
     }
 
     @DeleteMapping("{id}")
-    String delete(@PathVariable String id) {
-        return organizationsService.deleteById(id);
+    void delete(@PathVariable String id) {
+        organizationsService.deleteById(id);
     }
 
     @DeleteMapping
-    String deleteAll() {
-        return organizationsService.deleteAll();
+    void deleteAll() {
+        organizationsService.deleteAll();
     }
 }

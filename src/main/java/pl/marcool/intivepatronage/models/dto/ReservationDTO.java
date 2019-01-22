@@ -20,9 +20,6 @@ public class ReservationDTO {
     @NotNull(message = "Enter Room ID")
     private String conferenceRoomId;
 
-    public ReservationDTO() {
-    }
-
     public String getId() {
         return id;
     }

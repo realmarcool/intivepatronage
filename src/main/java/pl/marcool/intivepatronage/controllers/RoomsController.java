@@ -36,12 +36,12 @@ public class RoomsController {
     }
 
     @DeleteMapping("{id}")
-    String delete(@PathVariable String id) {
-        return roomsService.deleteById(id);
+    void delete(@PathVariable String id) {
+        roomsService.deleteById(id);
     }
 
     @DeleteMapping
-    String deleteAll() {
-        return roomsService.deleteAll();
+    void deleteAll() {
+        roomsService.deleteAll();
     }
 }

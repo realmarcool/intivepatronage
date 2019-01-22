@@ -20,9 +20,10 @@ public class OrganizationsService {
     private ObjectMapper objectMapper;
 
     public OrganizationDTO save(OrganizationDTO organizationDTO) throws IllegalArgumentException {
-        Organization organization = objectMapper.convertValue(organizationDTO, Organization.class);
-        if (organizationRepository.findById(organization.getName()).isPresent())
+        var organization = objectMapper.convertValue(organizationDTO, Organization.class);
+        if (organizationRepository.findById(organization.getName()).isPresent()) {
             throw new IllegalArgumentException(organization.getName() + " - already exist");
+        }
         return objectMapper.convertValue(organizationRepository.save(organization), OrganizationDTO.class);
     }
 
@@ -38,20 +39,19 @@ public class OrganizationsService {
     }
 
     public OrganizationDTO update(String id, OrganizationDTO organizationDTO) throws IllegalArgumentException {
-        Organization organization = objectMapper.convertValue(organizationDTO, Organization.class);
-        if (organizationRepository.findById(organization.getName()).isPresent())
+        var organization = objectMapper.convertValue(organizationDTO, Organization.class);
+        if (organizationRepository.findById(organization.getName()).isPresent()) {
             throw new IllegalArgumentException(organization.getName() + " - already exist");
+        }
         organizationRepository.deleteById(findById(id).getName());
         return objectMapper.convertValue(organizationRepository.save(organization), OrganizationDTO.class);
     }
 
-    public String deleteById(String id) throws IllegalArgumentException {
+    public void deleteById(String id) throws IllegalArgumentException {
         organizationRepository.deleteById(findById(id).getName());
-        return "{\"" + id + " - deleted\"}";
     }
 
-    public String deleteAll() {
+    public void deleteAll() {
         organizationRepository.deleteAll();
-        return "{\"Entire Organization database deleted\"}";
     }
 }
