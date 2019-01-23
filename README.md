@@ -35,7 +35,7 @@ CRUD – SALA KONFERENCYJNA:
 
 ZAPISANIE SALI KONFERENCYJNEJ:
 
-curl -X POST http://localhost:8080/conferencerooms -H 'Content-Type: application/json' -d @payload.json
+curl -X POST http://localhost:8080/rooms -H 'Content-Type: application/json' -d @payload.json
 
 zawartość payload.json
 {
@@ -56,27 +56,27 @@ zawartość payload.json
 
 ODCZYT WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X GET http://localhost:8080/conferencerooms
+curl -X GET http://localhost:8080/rooms
 
 
 ODCZYT SALI KONFERENCYJNEJ PO ID (CR1):
 
-curl -X GET 'http://localhost:8080/conferencerooms/CR1'
+curl -X GET 'http://localhost:8080/rooms/CR1'
 
 
 UPDATE SALI KONFERENCYJNEJ PO ID (CR1):
 
-curl -X PUT 'http://localhost:8080/conferencerooms/CR1' -H 'Content-Type: application/json' -d @payload.json
+curl -X PUT 'http://localhost:8080/rooms/CR1' -H 'Content-Type: application/json' -d @payload.json
 
 
 SKASOWANIE SALI KONFERENCYJNEJ PO ID (CR2):
 
-curl -X DELETE 'http://localhost:8080/conferencerooms/CR2'
+curl -X DELETE 'http://localhost:8080/rooms/CR2'
 
 
 SKASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
 
-curl -X DELETE http://localhost:8080/conferencerooms
+curl -X DELETE http://localhost:8080/rooms
 
 ******************************************************************
 
