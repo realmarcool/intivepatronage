@@ -54,27 +54,27 @@ zawartość payload.json
 }
 
 
-ODCZYT WSZYSTKICH SAL KONFERENCYJNYCH:
+**ODCZYT WSZYSTKICH SAL KONFERENCYJNYCH:**
 
 curl -X GET http://localhost:8080/rooms
 
 
-ODCZYT SALI KONFERENCYJNEJ PO ID (CR1):
+**ODCZYT SALI KONFERENCYJNEJ PO ID (CR1):**
 
 curl -X GET 'http://localhost:8080/rooms/CR1'
 
 
-UPDATE SALI KONFERENCYJNEJ PO ID (CR1):
+**UPDATE SALI KONFERENCYJNEJ PO ID (CR1):**
 
 curl -X PUT 'http://localhost:8080/rooms/CR1' -H 'Content-Type: application/json' -d @payload.json
 
 
-SKASOWANIE SALI KONFERENCYJNEJ PO ID (CR2):
+**SKASOWANIE SALI KONFERENCYJNEJ PO ID (CR2):**
 
 curl -X DELETE 'http://localhost:8080/rooms/CR2'
 
 
-SKASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
+**SKASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:**
 
 curl -X DELETE http://localhost:8080/rooms
 
@@ -82,32 +82,32 @@ curl -X DELETE http://localhost:8080/rooms
 
 CRUD – ORGANIZACJA
 
-ZAPISANIE ORGANIZACJI:
+**ZAPISANIE ORGANIZACJI:**
 
 curl -X POST  http://localhost:8080/organizations -H 'Content-Type: application/json' -d '{"name":"Organizacja1"}'
 
 
-ODCZYT WSZYSTKICH ORGANIZACJI:
+**ODCZYT WSZYSTKICH ORGANIZACJI:**
 
 curl -X GET http://localhost:8080/organizations
 
 
-ODCZYT ORGANIZACJI PO NAZWIE (Organizacja1):
+**ODCZYT ORGANIZACJI PO NAZWIE (Organizacja1):**
 
 curl -X GET 'http://localhost:8080/organizations/Organizacja1'
 
 
-UPDATE ORGANIZACJI PO NAZWIE (Organizacja1):
+**UPDATE ORGANIZACJI PO NAZWIE (Organizacja1):**
 
 curl -X PUT 'http://localhost:8080/organizations/Organizacja1' -H 'Content-Type: application/json' -d '{"name":"Organizacja2"}'
 
 
-SKASOWANIE SALI KONFERENCYJNEJ PO NAZWIE (Organizacja2):
+**SKASOWANIE SALI KONFERENCYJNEJ PO NAZWIE (Organizacja2):**
 
 curl -X DELETE 'http://localhost:8080/organizations/Organizacja2'
 
 
-KASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:
+**KASOWANIE WSZYSTKICH SAL KONFERENCYJNYCH:**
 
 curl -X DELETE http://localhost:8080/organizations
 
@@ -115,7 +115,7 @@ curl -X DELETE http://localhost:8080/organizations
 
 CRUD – REZERWACJA
 
-ZAPISANIE REZERWACJI:
+**ZAPISANIE REZERWACJI:**
 
 curl -X POST http://localhost:8080/reservations -H 'Content-Type: application/json' -d@payload.json
 
@@ -128,26 +128,26 @@ zawartość payload.json
 }
 
 
-ODCZYT WSZYSTKICH REZERWACJI:
+**ODCZYT WSZYSTKICH REZERWACJI:**
 
 curl -X GET http://localhost:8080/reservations
 
 
-ODCZYT REZERWACJI PO ID (Rezerwacja1):
+**ODCZYT REZERWACJI PO ID (Rezerwacja1):**
 
 curl -X GET 'http://localhost:8080/reservations/Rezerwacja1'
 
 
-UPDATE REZERWACJI PO ID (Rezerwacja1):
+**UPDATE REZERWACJI PO ID (Rezerwacja1):**
 
 curl -X PUT 'http://localhost:8080/reservations/Rezerwacja1' -H 'Content-Type: application/json' -d@payload.json
 
 
-SKASOWANIE REZERWACJI PO ID (Rezerwacja2):
+**SKASOWANIE REZERWACJI PO ID (Rezerwacja2):**
 
 curl -X DELETE 'http://localhost:8080/reservations/Rezerwacja2'
 
 
-SKASOWANIE WSZYSTKICH REZERWACJI:
+**SKASOWANIE WSZYSTKICH REZERWACJI:**
 
 curl -X DELETE http://localhost:8080/reservations
