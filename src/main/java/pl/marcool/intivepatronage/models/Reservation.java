@@ -14,9 +14,6 @@ public class Reservation {
     private String organizationId;
     private String conferenceRoomId;
 
-    public Reservation() {
-    }
-
     public String getId() {
         return id;
     }
@@ -55,16 +52,5 @@ public class Reservation {
 
     public void setConferenceRoomId(String conferenceRoomId) {
         this.conferenceRoomId = conferenceRoomId;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id='" + id + '\'' +
-                ", beginDate=" + beginDate +
-                ", endDate=" + endDate +
-                ", organizationId='" + organizationId + '\'' +
-                ", conferenceRoomId='" + conferenceRoomId + '\'' +
-                '}';
     }
 }

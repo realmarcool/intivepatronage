@@ -1,13 +1,12 @@
 package pl.marcool.intivepatronage.services;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.Reservation;
 import pl.marcool.intivepatronage.models.dto.ReservationDTO;
 import pl.marcool.intivepatronage.repositores.ReservationRepository;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -86,27 +85,15 @@ public class ReservationsService {
         }
     }
 
-    //ObjectMapper doesn't work with dates, need to manually rewrite fields
-    DateTimeFormatter stringToDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    DateTimeFormatter dateToString = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
     Reservation dtoToReservation(ReservationDTO reservationDTO) {
         var reservation = new Reservation();
-        reservation.setBeginDate(LocalDateTime.parse(reservationDTO.getBeginDate(), stringToDate));
-        reservation.setEndDate(LocalDateTime.parse(reservationDTO.getEndDate(), stringToDate));
-        reservation.setConferenceRoomId(reservationDTO.getConferenceRoomId());
-        reservation.setId(reservationDTO.getId());
-        reservation.setOrganizationId(reservationDTO.getOrganizationId());
+        BeanUtils.copyProperties(reservationDTO, reservation);
         return reservation;
     }
 
     ReservationDTO reservationToDTO(Reservation reservation) {
         var reservationDTO = new ReservationDTO();
-        reservationDTO.setBeginDate(reservation.getBeginDate().format(dateToString));
-        reservationDTO.setEndDate(reservation.getEndDate().format(dateToString));
-        reservationDTO.setConferenceRoomId(reservation.getConferenceRoomId());
-        reservationDTO.setId(reservation.getId());
-        reservationDTO.setOrganizationId(reservation.getOrganizationId());
+        BeanUtils.copyProperties(reservation, reservationDTO);
         return reservationDTO;
     }
 }
