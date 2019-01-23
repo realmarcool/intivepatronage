@@ -21,28 +21,6 @@ public class Room {
     private String phoneOutNumber;
     private String communicationInterface;
 
-    public Room() {
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", floor=" + floor +
-                ", availability=" + availability +
-                ", seating=" + seating +
-                ", standingPlace=" + standingPlace +
-                ", lyingPlace=" + lyingPlace +
-                ", hammock=" + hammock +
-                ", projector='" + projector + '\'' +
-                ", phone=" + phone +
-                ", phoneInNumber=" + phoneInNumber +
-                ", phoneOutNumber='" + phoneOutNumber + '\'' +
-                ", communicationInterface='" + communicationInterface + '\'' +
-                '}';
-    }
-
     public String getName() {
         return name;
     }

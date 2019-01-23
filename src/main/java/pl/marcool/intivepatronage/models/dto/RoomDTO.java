@@ -139,23 +139,4 @@ public class RoomDTO {
     public void setCommunicationInterface(String communicationInterface) {
         this.communicationInterface = communicationInterface;
     }
-
-    @Override
-    public String toString() {
-        return "RoomDTO{" +
-                "name='" + name + '\'' +
-                ", id='" + id + '\'' +
-                ", floor=" + floor +
-                ", availability=" + availability +
-                ", seating=" + seating +
-                ", standingPlace=" + standingPlace +
-                ", lyingPlace=" + lyingPlace +
-                ", hammock=" + hammock +
-                ", projector='" + projector + '\'' +
-                ", phone=" + phone +
-                ", phoneInNumber=" + phoneInNumber +
-                ", phoneOutNumber='" + phoneOutNumber + '\'' +
-                ", communicationInterface='" + communicationInterface + '\'' +
-                '}';
-    }
 }
