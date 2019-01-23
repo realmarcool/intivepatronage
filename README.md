@@ -33,7 +33,7 @@ Lista poleceń CURL do obsługi aplikacji:
 
 CRUD – SALA KONFERENCYJNA:
 
-ZAPISANIE SALI KONFERENCYJNEJ:
+###### **ZAPISANIE SALI KONFERENCYJNEJ:**
 
 curl -X POST http://localhost:8080/rooms -H 'Content-Type: application/json' -d @payload.json
 
