@@ -14,10 +14,13 @@ import java.util.stream.StreamSupport;
 @Service
 public class RoomsService {
 
-    @Autowired
     private RoomRepository roomRepository;
-    @Autowired
     private ObjectMapper objectMapper;
+
+    private RoomsService(RoomRepository roomRepository, ObjectMapper objectMapper){
+        this.roomRepository = roomRepository;
+        this.objectMapper = objectMapper;
+    }
 
     public RoomDTO save(RoomDTO roomDTO) throws IllegalArgumentException {
         var room = objectMapper.convertValue(roomDTO, Room.class);

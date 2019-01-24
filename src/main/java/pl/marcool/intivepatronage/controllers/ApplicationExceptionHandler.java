@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
-public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
+class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity ExceptionHandler(IllegalArgumentException ex) {

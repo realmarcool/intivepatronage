@@ -1,6 +1,5 @@
 package pl.marcool.intivepatronage.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.marcool.intivepatronage.models.dto.OrganizationDTO;
 import pl.marcool.intivepatronage.services.OrganizationsService;
@@ -9,10 +8,13 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/organizations")
-public class OrganizationsController {
+class OrganizationsController {
 
-    @Autowired
-    private OrganizationsService organizationsService;
+    private final OrganizationsService organizationsService;
+
+    private OrganizationsController(OrganizationsService organizationsService){
+        this.organizationsService = organizationsService;
+    }
 
     @GetMapping
     Iterable<OrganizationDTO> getAll() {

@@ -1,6 +1,5 @@
 package pl.marcool.intivepatronage.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.marcool.intivepatronage.models.dto.ReservationDTO;
 import pl.marcool.intivepatronage.services.ReservationsService;
@@ -10,10 +9,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reservations")
-public class ReservationsController {
+class ReservationsController {
 
-    @Autowired
-    private ReservationsService reservationsService;
+    private final ReservationsService reservationsService;
+
+    private ReservationsController(ReservationsService reservationsService){
+    this.reservationsService =reservationsService;
+    }
 
     @GetMapping
     List<ReservationDTO> getAll() {

@@ -14,12 +14,16 @@ import java.util.stream.StreamSupport;
 @Service
 public class ReservationsService {
 
-    @Autowired
     private RoomsService roomsService;
-    @Autowired
     private ReservationRepository reservationRepository;
-    @Autowired
     private OrganizationsService organizationsService;
+
+    private ReservationsService(RoomsService roomsService, ReservationRepository reservationRepository,
+                                OrganizationsService organizationsService){
+        this.roomsService = roomsService;
+        this.reservationRepository = reservationRepository;
+        this.organizationsService = organizationsService;
+    }
 
     public ReservationDTO save(ReservationDTO reservationDTO) throws IllegalArgumentException {
         var reservation = dtoToReservation(reservationDTO);

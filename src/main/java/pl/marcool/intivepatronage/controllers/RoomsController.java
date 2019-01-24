@@ -1,6 +1,5 @@
 package pl.marcool.intivepatronage.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.marcool.intivepatronage.models.dto.RoomDTO;
 import pl.marcool.intivepatronage.services.RoomsService;
@@ -10,10 +9,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/rooms")
-public class RoomsController {
+class RoomsController {
 
-    @Autowired
-    private RoomsService roomsService;
+    private final RoomsService roomsService;
+
+    private RoomsController(RoomsService roomsService){
+        this.roomsService = roomsService;
+    }
 
     @GetMapping
     List<RoomDTO> getAll() {

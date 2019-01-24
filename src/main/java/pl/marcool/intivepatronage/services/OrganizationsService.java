@@ -1,7 +1,6 @@
 package pl.marcool.intivepatronage.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.Organization;
 import pl.marcool.intivepatronage.models.dto.OrganizationDTO;
@@ -14,10 +13,13 @@ import java.util.stream.StreamSupport;
 @Service
 public class OrganizationsService {
 
-    @Autowired
     private OrganizationRepository organizationRepository;
-    @Autowired
     private ObjectMapper objectMapper;
+
+    private OrganizationsService(OrganizationRepository organizationRepository, ObjectMapper objectMapper){
+        this.organizationRepository = organizationRepository;
+        this.objectMapper = objectMapper;
+    }
 
     public OrganizationDTO save(OrganizationDTO organizationDTO) throws IllegalArgumentException {
         var organization = objectMapper.convertValue(organizationDTO, Organization.class);
