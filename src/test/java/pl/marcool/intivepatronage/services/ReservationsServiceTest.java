@@ -38,6 +38,7 @@ public class ReservationsServiceTest {
     OrganizationDTO organization = new OrganizationDTO();
     RoomDTO room1 = new RoomDTO();
     ReservationDTO existReservation1 = new ReservationDTO();
+    ReservationDTO existReservation2 = new ReservationDTO();
     ReservationDTO testReservationToDTO = new ReservationDTO();
     Reservation testDTOtoReservation = new Reservation();
 
@@ -64,23 +65,29 @@ public class ReservationsServiceTest {
         room1.setPhoneOutNumber("+12 123456789");
         room1.setCommunicationInterface("bluetooth");
 
-        existReservation1.setId("reserv1");
+        existReservation1.setId("Reservation1");
         existReservation1.setOrganizationId("Org1");
         existReservation1.setConferenceRoomId("CR1");
         existReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 00));
-        existReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 00));
+        existReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 30));
+        existReservation2.setId("Reservation2");
+        existReservation2.setOrganizationId("Org1");
+        existReservation2.setConferenceRoomId("CR1");
+        existReservation2.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
+        existReservation2.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 00));
 
-        incorrectReservation1.setId("reserv2");
+        incorrectReservation1.setId("Reservation3");
         incorrectReservation1.setOrganizationId("Org1");
         incorrectReservation1.setConferenceRoomId("CR1");
 
-        correctReservation1.setId("reserv2");
+        correctReservation1.setId("Reservation3");
         correctReservation1.setOrganizationId("Org1");
         correctReservation1.setConferenceRoomId("CR1");
 
         roomsService.save(room1);
         organizationsService.save(organization);
         reservationsService.save(existReservation1);
+        reservationsService.save(existReservation2);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -154,7 +161,7 @@ public class ReservationsServiceTest {
 
     @Test
     public void getAll() {
-        assertTrue(reservationsService.getAll().size()==1);
+        assertTrue(reservationsService.getAll().size()==2);
     }
 
     @Test
@@ -169,7 +176,7 @@ public class ReservationsServiceTest {
     @Test
     public void deleteById() {
         reservationsService.deleteById(existReservation1.getId());
-        assertTrue(reservationsService.getAll().size() == 0);
+        assertTrue(reservationsService.getAll().size() == 1);
     }
 
     @Test
@@ -190,7 +197,7 @@ public class ReservationsServiceTest {
 
     @Test
     public void reservationToDTO() {
-        testDTOtoReservation.setId("reserv2");
+        testDTOtoReservation.setId("Reservation1");
         testDTOtoReservation.setOrganizationId("Org1");
         testDTOtoReservation.setConferenceRoomId("CR1");
         testDTOtoReservation.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
