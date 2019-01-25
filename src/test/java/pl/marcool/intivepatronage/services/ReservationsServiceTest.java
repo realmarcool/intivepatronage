@@ -28,29 +28,6 @@ import static org.junit.Assert.*;
 @DataJpaTest
 public class ReservationsServiceTest {
 
-//    @TestConfiguration
-//    static class TestContextConfiguration {
-//        @MockBean
-//        OrganizationRepository organizationRepository;
-//        @MockBean
-//        private RoomRepository roomRepository;
-//        @MockBean
-//        private ReservationRepository reservationRepository;
-//        @MockBean
-//        private ObjectMapper objectMapper;
-////        @Bean
-////        public OrganizationsService organizationsService() {
-////            return new OrganizationsService(organizationRepository, objectMapper);
-////        }
-////        @Bean
-////        public RoomsService roomsService(){
-////            return new RoomsService(roomRepository, objectMapper);
-
-//        @Bean
-//        public ReservationsService reservationsService() {
-//            return new ReservationsService(roomsService, reservationRepository, organizationsService);
-//        }
-
     @Autowired
     private OrganizationRepository organizationRepository;
     @Autowired
@@ -64,12 +41,6 @@ public class ReservationsServiceTest {
     RoomsService roomsService;
     ReservationsService reservationsService;
 
-//    @Autowired
-//    private OrganizationsService organizationsService;
-//    @Autowired
-//    private RoomsService roomsService;
-//    @Autowired
-//    private ReservationsService reservationsService;
     OrganizationDTO organization = new OrganizationDTO();
     RoomDTO room1 = new RoomDTO();
     ReservationDTO existReservation1 = new ReservationDTO();
