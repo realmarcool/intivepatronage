@@ -7,11 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import pl.marcool.intivepatronage.models.Organization;
 import pl.marcool.intivepatronage.models.dto.OrganizationDTO;
-import pl.marcool.intivepatronage.models.dto.RoomDTO;
 import pl.marcool.intivepatronage.repositores.OrganizationRepository;
-import pl.marcool.intivepatronage.repositores.RoomRepository;
 
 import static org.junit.Assert.*;
 
@@ -43,6 +40,12 @@ public class OrganizationsServiceTest {
         assertTrue(organizationsService.getAll().size() == 2);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void incorrectNameSave(){
+        organization2.setName("");
+        organizationsService.save(organization1);
+    }
+
     @Test
     public void getAll() {
         assertTrue(organizationsService.getAll().size() == 1);
@@ -58,6 +61,13 @@ public class OrganizationsServiceTest {
         organization1.setName("Organization2");
         organizationsService.update("Organization1", organization1);
         assertTrue(organizationsService.findById("Organization2").getName().equals("Organization2"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void incorrectUpdate(){
+        organization2.setName("Organization2");
+        organizationsService.save(organization2);
+        organizationsService.update("Organization1", organization2);
     }
 
     @Test
