@@ -1,7 +1,6 @@
 package pl.marcool.intivepatronage.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.Room;
 import pl.marcool.intivepatronage.models.dto.RoomDTO;

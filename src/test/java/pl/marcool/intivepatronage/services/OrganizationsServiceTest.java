@@ -21,10 +21,10 @@ public class OrganizationsServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    OrganizationsService organizationsService;
+    private OrganizationsService organizationsService;
 
-    OrganizationDTO organization1 = new OrganizationDTO();
-    OrganizationDTO organization2 = new OrganizationDTO();
+    private OrganizationDTO organization1 = new OrganizationDTO();
+    private OrganizationDTO organization2 = new OrganizationDTO();
 
     @Before
     public void setUp() throws Exception {
@@ -37,7 +37,7 @@ public class OrganizationsServiceTest {
     public void save() {
         organization2.setName("Org2");
         organizationsService.save(organization2);
-        assertTrue(organizationsService.getAll().size() == 2);
+        assertEquals(2, organizationsService.getAll().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -48,19 +48,19 @@ public class OrganizationsServiceTest {
 
     @Test
     public void getAll() {
-        assertTrue(organizationsService.getAll().size() == 1);
+        assertEquals(1, organizationsService.getAll().size());
     }
 
     @Test
     public void findById() {
-        assertTrue(organizationsService.findById(organization1.getName()).getName().equals(organization1.getName()));
+        assertEquals(organizationsService.findById(organization1.getName()).getName(), organization1.getName());
     }
 
     @Test
     public void update() {
         organization1.setName("Organization2");
         organizationsService.update("Organization1", organization1);
-        assertTrue(organizationsService.findById("Organization2").getName().equals("Organization2"));
+        assertEquals("Organization2", organizationsService.findById("Organization2").getName());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -73,12 +73,12 @@ public class OrganizationsServiceTest {
     @Test
     public void deleteById() {
         organizationsService.deleteById(organization1.getName());
-        assertTrue(organizationsService.getAll().size() == 0);
+        assertEquals(0, organizationsService.getAll().size());
     }
 
     @Test
     public void deleteAll() {
         organizationsService.deleteAll();
-        assertTrue(organizationsService.getAll().size() == 0);
+        assertEquals(0, organizationsService.getAll().size());
     }
 }

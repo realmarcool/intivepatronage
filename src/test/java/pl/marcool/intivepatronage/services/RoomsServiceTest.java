@@ -21,10 +21,10 @@ public class RoomsServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    RoomsService roomsService;
+    private RoomsService roomsService;
 
-    RoomDTO room1 = new RoomDTO();
-    RoomDTO room2 = new RoomDTO();
+    private RoomDTO room1 = new RoomDTO();
+    private RoomDTO room2 = new RoomDTO();
 
     @Before
     public void setUp() throws Exception {
@@ -59,17 +59,17 @@ public class RoomsServiceTest {
     @Test
     public void save() {
         roomsService.save(room2);
-        assertTrue(roomsService.getAll().size() == 2);
+        assertEquals(2, roomsService.getAll().size());
     }
 
     @Test
     public void getAll() {
-        assertTrue(roomsService.getAll().size() == 1);
+        assertEquals(1, roomsService.getAll().size());
     }
 
     @Test
     public void findById() {
-        assertTrue(roomsService.findById(room1.getId()).getId().equals(room1.getId()));
+        assertEquals(roomsService.findById(room1.getId()).getId(), room1.getId());
     }
 
     @Test
@@ -77,18 +77,18 @@ public class RoomsServiceTest {
         room1.setId("CR2");
         room1.setName("Room2");
         roomsService.update("CR1", room1);
-        assertTrue(roomsService.findById("CR2").getName().equals("Room2"));
+        assertEquals("Room2", roomsService.findById("CR2").getName());
     }
 
     @Test
     public void deleteById() {
         roomsService.deleteById(room1.getId());
-        assertTrue(roomsService.getAll().size() == 0);
+        assertEquals(0, roomsService.getAll().size());
     }
 
     @Test
     public void deleteAll() {
         roomsService.deleteAll();
-        assertTrue(roomsService.getAll().size() == 0);
+        assertEquals(0, roomsService.getAll().size());
     }
 }

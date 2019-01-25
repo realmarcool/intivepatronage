@@ -31,19 +31,19 @@ public class ReservationsServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    OrganizationsService organizationsService;
-    RoomsService roomsService;
-    ReservationsService reservationsService;
+    private OrganizationsService organizationsService;
+    private RoomsService roomsService;
+    private ReservationsService reservationsService;
 
-    OrganizationDTO organization = new OrganizationDTO();
-    RoomDTO room1 = new RoomDTO();
-    ReservationDTO existReservation1 = new ReservationDTO();
-    ReservationDTO existReservation2 = new ReservationDTO();
-    ReservationDTO testReservationToDTO = new ReservationDTO();
-    Reservation testDTOtoReservation = new Reservation();
+    private OrganizationDTO organization = new OrganizationDTO();
+    private RoomDTO room1 = new RoomDTO();
+    private ReservationDTO existReservation1 = new ReservationDTO();
+    private ReservationDTO existReservation2 = new ReservationDTO();
+    private ReservationDTO testReservationToDTO = new ReservationDTO();
+    private Reservation testDTOtoReservation = new Reservation();
 
-    ReservationDTO incorrectReservation1 = new ReservationDTO();
-    ReservationDTO correctReservation1 = new ReservationDTO();
+    private ReservationDTO incorrectReservation1 = new ReservationDTO();
+    private ReservationDTO correctReservation1 = new ReservationDTO();
 
 
     @Before
@@ -68,13 +68,13 @@ public class ReservationsServiceTest {
         existReservation1.setId("Reservation1");
         existReservation1.setOrganizationId("Org1");
         existReservation1.setConferenceRoomId("CR1");
-        existReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 00));
-        existReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 30));
+        existReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 0));
+        existReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 30));
         existReservation2.setId("Reservation2");
         existReservation2.setOrganizationId("Org1");
         existReservation2.setConferenceRoomId("CR1");
-        existReservation2.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
-        existReservation2.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 00));
+        existReservation2.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        existReservation2.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 0));
 
         incorrectReservation1.setId("Reservation3");
         incorrectReservation1.setOrganizationId("Org1");
@@ -92,76 +92,76 @@ public class ReservationsServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void save13to14() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 00));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 00));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 0));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save13to13_30() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 00));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 30));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 30));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save12_30to13_30() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 12, 30));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 30));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 30));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save12_30to14_30() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 12, 30));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 30));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 30));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save13_30to13_50() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 50));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 50));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save13_30to14_30() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 30));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 30));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save13_30to14_00() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 00));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 0));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save12_30to13_01() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 12, 30));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 01));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 1));
         reservationsService.save(incorrectReservation1);
     }
     @Test(expected = IllegalArgumentException.class)
     public void save13_59to14_05() {
-        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 59));
-        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 05));
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 59));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 5));
         reservationsService.save(incorrectReservation1);
     }
     @Test
     public void save12to13() {
-        correctReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 12, 00));
-        correctReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 13, 00));
+        correctReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 0));
+        correctReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 0));
         reservationsService.save(correctReservation1);
         assertSame(correctReservation1.getBeginDate(), reservationsService.findById(correctReservation1.getId()).getBeginDate());
     }
     @Test
     public void save14to15() {
-        correctReservation1.setBeginDate(LocalDateTime.of(2019, 01, 20, 14, 00));
-        correctReservation1.setEndDate(LocalDateTime.of(2019, 01, 20, 15, 00));
+        correctReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        correctReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
         reservationsService.save(correctReservation1);
         assertSame(correctReservation1.getBeginDate(), reservationsService.findById(correctReservation1.getId()).getBeginDate());
     }
 
     @Test
     public void getAll() {
-        assertTrue(reservationsService.getAll().size()==2);
+        assertEquals(2, reservationsService.getAll().size());
     }
 
     @Test
@@ -171,18 +171,23 @@ public class ReservationsServiceTest {
 
     @Test
     public void update() {
+        correctReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        correctReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        correctReservation1.setId(existReservation1.getId());
+        reservationsService.update(existReservation1.getId(), correctReservation1);
+        assertSame(correctReservation1.getBeginDate(), reservationsService.findById(existReservation1.getId()).getBeginDate());
     }
 
     @Test
     public void deleteById() {
         reservationsService.deleteById(existReservation1.getId());
-        assertTrue(reservationsService.getAll().size() == 1);
+        assertEquals(1, reservationsService.getAll().size());
     }
 
     @Test
     public void deleteAll() {
         reservationsService.deleteAll();
-        assertTrue(reservationsService.getAll().size() == 0);
+        assertEquals(0, reservationsService.getAll().size());
     }
 
     @Test
@@ -200,8 +205,8 @@ public class ReservationsServiceTest {
         testDTOtoReservation.setId("Reservation1");
         testDTOtoReservation.setOrganizationId("Org1");
         testDTOtoReservation.setConferenceRoomId("CR1");
-        testDTOtoReservation.setBeginDate(LocalDateTime.of(2019, 01, 20, 13, 30));
-        testDTOtoReservation.setEndDate(LocalDateTime.of(2019, 01, 20, 14, 30));
+        testDTOtoReservation.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        testDTOtoReservation.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 30));
         testReservationToDTO = reservationsService.reservationToDTO(testDTOtoReservation);
         assertNotNull(testReservationToDTO);
         assertSame(testReservationToDTO.getId(), testDTOtoReservation.getId());

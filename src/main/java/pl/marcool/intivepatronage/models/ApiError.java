@@ -10,6 +10,10 @@ public class ApiError {
     private HttpStatus status;
     private List<String> errors;
 
+    public List<String> getErrors() {
+        return errors;
+    }
+
     public ApiError(HttpStatus status, List<String> errors) {
         super();
         this.status = status;
@@ -24,10 +28,6 @@ public class ApiError {
 
     public HttpStatus getStatus() {
         return status;
-    }
-
-    public List<String> getErrors() {
-        return errors;
     }
 
     public void setStatus(HttpStatus status) {

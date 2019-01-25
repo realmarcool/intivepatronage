@@ -1,7 +1,6 @@
 package pl.marcool.intivepatronage.services;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.marcool.intivepatronage.models.Reservation;
 import pl.marcool.intivepatronage.models.dto.ReservationDTO;
@@ -9,7 +8,6 @@ import pl.marcool.intivepatronage.repositores.ReservationRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class ReservationsService {
@@ -36,8 +34,8 @@ public class ReservationsService {
     }
 
     public List<ReservationDTO> getAll() {
-        return StreamSupport.stream(reservationRepository.findAll().spliterator(), false)
-                .map(t -> reservationToDTO(t))
+        return reservationRepository.findAll().stream()
+                .map(this::reservationToDTO)
                 .collect(Collectors.toList());
     }
 

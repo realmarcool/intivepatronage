@@ -43,7 +43,7 @@ class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         var apiError = new ApiError(
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-        return new ResponseEntity<Object>(
+        return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
@@ -53,7 +53,7 @@ class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
         }
