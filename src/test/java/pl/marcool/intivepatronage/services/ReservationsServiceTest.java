@@ -6,13 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-import pl.marcool.intivepatronage.models.Organization;
 import pl.marcool.intivepatronage.models.Reservation;
-import pl.marcool.intivepatronage.models.Room;
 import pl.marcool.intivepatronage.models.dto.OrganizationDTO;
 import pl.marcool.intivepatronage.models.dto.ReservationDTO;
 import pl.marcool.intivepatronage.models.dto.RoomDTO;
@@ -21,7 +16,6 @@ import pl.marcool.intivepatronage.repositores.ReservationRepository;
 import pl.marcool.intivepatronage.repositores.RoomRepository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
@@ -157,26 +151,32 @@ public class ReservationsServiceTest {
         reservationsService.save(correctReservation1);
         assertSame(correctReservation1.getBeginDate(), reservationsService.findById(correctReservation1.getId()).getBeginDate());
     }
-//
-//    @Test
-//    public void getAll() {
-//    }
-//
-//    @Test
-//    public void findById() {
-//    }
-//
-//    @Test
-//    public void update() {
-//    }
-//
-//    @Test
-//    public void deleteById() {
-//    }
-//
-//    @Test
-//    public void deleteAll() {
-//    }
+
+    @Test
+    public void getAll() {
+        assertTrue(reservationsService.getAll().size()==1);
+    }
+
+    @Test
+    public void findById() {
+        assertSame(reservationsService.findById(existReservation1.getId()).getId(), existReservation1.getId());
+    }
+
+    @Test
+    public void update() {
+    }
+
+    @Test
+    public void deleteById() {
+        reservationsService.deleteById(existReservation1.getId());
+        assertTrue(reservationsService.getAll().size() == 0);
+    }
+
+    @Test
+    public void deleteAll() {
+        reservationsService.deleteAll();
+        assertTrue(reservationsService.getAll().size() == 0);
+    }
 
     @Test
     public void dtoToReservation() {
@@ -201,6 +201,5 @@ public class ReservationsServiceTest {
         assertSame(testReservationToDTO.getConferenceRoomId(), testDTOtoReservation.getConferenceRoomId());
         assertSame(testReservationToDTO.getBeginDate(), testDTOtoReservation.getBeginDate());
         assertSame(testReservationToDTO.getEndDate(), testDTOtoReservation.getEndDate());
-
     }
 }
