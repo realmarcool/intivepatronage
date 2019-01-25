@@ -18,7 +18,7 @@ public class ReservationsService {
     private ReservationRepository reservationRepository;
     private OrganizationsService organizationsService;
 
-    private ReservationsService(RoomsService roomsService, ReservationRepository reservationRepository,
+    public ReservationsService(RoomsService roomsService, ReservationRepository reservationRepository,
                                 OrganizationsService organizationsService){
         this.roomsService = roomsService;
         this.reservationRepository = reservationRepository;
