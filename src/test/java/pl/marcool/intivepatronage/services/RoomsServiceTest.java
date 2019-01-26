@@ -23,11 +23,11 @@ public class RoomsServiceTest {
 
     private RoomsService roomsService;
 
-    private RoomDTO room1 = new RoomDTO();
-    private RoomDTO room2 = new RoomDTO();
+    private final RoomDTO room1 = new RoomDTO();
+    private final RoomDTO room2 = new RoomDTO();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         roomsService = new RoomsService(roomRepository, objectMapper);
         room1.setName("conference room 1");
         room1.setId("CR1");

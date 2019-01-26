@@ -13,8 +13,8 @@ import java.util.stream.StreamSupport;
 @Service
 public class RoomsService {
 
-    private RoomRepository roomRepository;
-    private ObjectMapper objectMapper;
+    private final RoomRepository roomRepository;
+    private final ObjectMapper objectMapper;
 
     public RoomsService(RoomRepository roomRepository, ObjectMapper objectMapper) {
         this.roomRepository = roomRepository;

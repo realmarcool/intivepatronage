@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 @Service
 public class ReservationsService {
 
-    private RoomsService roomsService;
-    private ReservationRepository reservationRepository;
-    private OrganizationsService organizationsService;
+    private final RoomsService roomsService;
+    private final ReservationRepository reservationRepository;
+    private final OrganizationsService organizationsService;
 
     public ReservationsService(RoomsService roomsService, ReservationRepository reservationRepository,
                                OrganizationsService organizationsService) {

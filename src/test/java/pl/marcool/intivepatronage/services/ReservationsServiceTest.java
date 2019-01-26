@@ -31,25 +31,22 @@ public class ReservationsServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private OrganizationsService organizationsService;
-    private RoomsService roomsService;
     private ReservationsService reservationsService;
 
-    private OrganizationDTO organization = new OrganizationDTO();
-    private RoomDTO room1 = new RoomDTO();
-    private ReservationDTO existReservation1 = new ReservationDTO();
-    private ReservationDTO existReservation2 = new ReservationDTO();
-    private ReservationDTO testReservationToDTO = new ReservationDTO();
+    private final OrganizationDTO organization = new OrganizationDTO();
+    private final RoomDTO room1 = new RoomDTO();
+    private final ReservationDTO existReservation1 = new ReservationDTO();
+    private final ReservationDTO existReservation2 = new ReservationDTO();
     private Reservation testDTOtoReservation = new Reservation();
 
-    private ReservationDTO incorrectReservation1 = new ReservationDTO();
-    private ReservationDTO correctReservation1 = new ReservationDTO();
+    private final ReservationDTO incorrectReservation1 = new ReservationDTO();
+    private final ReservationDTO correctReservation1 = new ReservationDTO();
 
 
     @Before
     public void setUp(){
-        organizationsService = new OrganizationsService(organizationRepository, objectMapper);
-        roomsService = new RoomsService(roomRepository, objectMapper);
+        OrganizationsService organizationsService = new OrganizationsService(organizationRepository, objectMapper);
+        RoomsService roomsService = new RoomsService(roomRepository, objectMapper);
         reservationsService = new ReservationsService(roomsService, reservationRepository, organizationsService);
         organization.setName("Org1");
         room1.setName("conference room 1");
@@ -288,7 +285,7 @@ public class ReservationsServiceTest {
         testDTOtoReservation.setConferenceRoomId("CR1");
         testDTOtoReservation.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
         testDTOtoReservation.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 30));
-        testReservationToDTO = reservationsService.reservationToDTO(testDTOtoReservation);
+        ReservationDTO testReservationToDTO = reservationsService.reservationToDTO(testDTOtoReservation);
         assertNotNull(testReservationToDTO);
         assertSame(testReservationToDTO.getId(), testDTOtoReservation.getId());
         assertSame(testReservationToDTO.getConferenceRoomId(), testDTOtoReservation.getConferenceRoomId());

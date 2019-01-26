@@ -13,8 +13,8 @@ import java.util.stream.StreamSupport;
 @Service
 public class OrganizationsService {
 
-    private OrganizationRepository organizationRepository;
-    private ObjectMapper objectMapper;
+    private final OrganizationRepository organizationRepository;
+    private final ObjectMapper objectMapper;
 
     public OrganizationsService(OrganizationRepository organizationRepository, ObjectMapper objectMapper) {
         this.organizationRepository = organizationRepository;

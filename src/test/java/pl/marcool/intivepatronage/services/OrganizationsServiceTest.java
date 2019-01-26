@@ -23,11 +23,11 @@ public class OrganizationsServiceTest {
 
     private OrganizationsService organizationsService;
 
-    private OrganizationDTO organization1 = new OrganizationDTO();
-    private OrganizationDTO organization2 = new OrganizationDTO();
+    private final OrganizationDTO organization1 = new OrganizationDTO();
+    private final OrganizationDTO organization2 = new OrganizationDTO();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         organizationsService = new OrganizationsService(organizationRepository, objectMapper);
         organization1.setName("Organization1");
         organizationsService.save(organization1);

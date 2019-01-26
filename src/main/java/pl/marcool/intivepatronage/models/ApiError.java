@@ -2,13 +2,13 @@ package pl.marcool.intivepatronage.models;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ApiError {
 
     private HttpStatus status;
-    private List<String> errors;
+    private final List<String> errors;
 
     public List<String> getErrors() {
         return errors;
@@ -23,7 +23,7 @@ public class ApiError {
     public ApiError(HttpStatus status, String error) {
         super();
         this.status = status;
-        errors = Arrays.asList(error);
+        errors = Collections.singletonList(error);
     }
 
     public HttpStatus getStatus() {
