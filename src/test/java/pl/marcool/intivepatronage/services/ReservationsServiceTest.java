@@ -47,7 +47,7 @@ public class ReservationsServiceTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         organizationsService = new OrganizationsService(organizationRepository, objectMapper);
         roomsService = new RoomsService(roomRepository, objectMapper);
         reservationsService = new ReservationsService(roomsService, reservationRepository, organizationsService);
@@ -176,6 +176,87 @@ public class ReservationsServiceTest {
         correctReservation1.setId(existReservation1.getId());
         reservationsService.update(existReservation1.getId(), correctReservation1);
         assertSame(correctReservation1.getBeginDate(), reservationsService.findById(existReservation1.getId()).getBeginDate());
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update13to14() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update13to13_30() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update12_30to13_30() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update12_30to14_30() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 30));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update13_30to13_50() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 50));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update13_30to14_30() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 30));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update13_30to14_00() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update12_30to13_01() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 12, 30));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 13, 1));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void update13_59to14_05() {
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 14, 0));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 15, 0));
+        reservationsService.save(incorrectReservation1);
+        incorrectReservation1.setBeginDate(LocalDateTime.of(2019, 1, 20, 13, 59));
+        incorrectReservation1.setEndDate(LocalDateTime.of(2019, 1, 20, 14, 5));
+        reservationsService.update(incorrectReservation1.getId(), incorrectReservation1);
     }
 
     @Test

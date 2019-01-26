@@ -17,7 +17,7 @@ public class ReservationsService {
     private OrganizationsService organizationsService;
 
     public ReservationsService(RoomsService roomsService, ReservationRepository reservationRepository,
-                                OrganizationsService organizationsService){
+                               OrganizationsService organizationsService) {
         this.roomsService = roomsService;
         this.reservationRepository = reservationRepository;
         this.organizationsService = organizationsService;
@@ -76,13 +76,14 @@ public class ReservationsService {
         if (reservationBegin.plusHours(2).isBefore(reservationEnd)) {
             throw new IllegalArgumentException("Maximum rental time is 2 hours");
         }
-        var condition1 = reservationRepository.findByConferenceRoomIdAndBeginDateBeforeAndEndDateAfter
-                (reservation.getConferenceRoomId(), reservationBegin.plusSeconds(60), reservationBegin);
-        var condition2 = reservationRepository.findByConferenceRoomIdAndBeginDateAfterAndBeginDateBefore
-                (reservation.getConferenceRoomId(), reservationBegin, reservationEnd);
-        var condition3 = reservationRepository.findById(id);
-        if ((!condition1.isEmpty() && condition3.isEmpty())
-                || (!condition2.isEmpty() && condition3.isEmpty())) {
+        var isNewReservationStartsDuringExistingOne = reservationRepository
+                .findByConferenceRoomIdAndBeginDateBeforeAndEndDateAfterAndIdIsNotContaining
+                        (reservation.getConferenceRoomId(), reservationBegin.plusSeconds(60), reservationBegin, id);
+        var isNewReservationEndsDuringExistingOneOrExistingOneContainedInNewReservation = reservationRepository
+                .findByConferenceRoomIdAndBeginDateAfterAndBeginDateBeforeAndIdIsNotContaining
+                        (reservation.getConferenceRoomId(), reservationBegin, reservationEnd, id);
+        if ((!isNewReservationStartsDuringExistingOne.isEmpty())
+                || (!isNewReservationEndsDuringExistingOneOrExistingOneContainedInNewReservation.isEmpty())) {
             throw new IllegalArgumentException("Room is already reserved at this time");
         }
     }

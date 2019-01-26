@@ -13,7 +13,7 @@ class RoomsController {
 
     private final RoomsService roomsService;
 
-    private RoomsController(RoomsService roomsService){
+    private RoomsController(RoomsService roomsService) {
         this.roomsService = roomsService;
     }
 

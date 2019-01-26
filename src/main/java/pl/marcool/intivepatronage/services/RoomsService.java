@@ -16,7 +16,7 @@ public class RoomsService {
     private RoomRepository roomRepository;
     private ObjectMapper objectMapper;
 
-    public RoomsService(RoomRepository roomRepository, ObjectMapper objectMapper){
+    public RoomsService(RoomRepository roomRepository, ObjectMapper objectMapper) {
         this.roomRepository = roomRepository;
         this.objectMapper = objectMapper;
     }

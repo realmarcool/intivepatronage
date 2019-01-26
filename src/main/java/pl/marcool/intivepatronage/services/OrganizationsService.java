@@ -16,7 +16,7 @@ public class OrganizationsService {
     private OrganizationRepository organizationRepository;
     private ObjectMapper objectMapper;
 
-    public OrganizationsService(OrganizationRepository organizationRepository, ObjectMapper objectMapper){
+    public OrganizationsService(OrganizationRepository organizationRepository, ObjectMapper objectMapper) {
         this.organizationRepository = organizationRepository;
         this.objectMapper = objectMapper;
     }

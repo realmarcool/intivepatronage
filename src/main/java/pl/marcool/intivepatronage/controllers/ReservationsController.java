@@ -13,8 +13,8 @@ class ReservationsController {
 
     private final ReservationsService reservationsService;
 
-    private ReservationsController(ReservationsService reservationsService){
-    this.reservationsService =reservationsService;
+    private ReservationsController(ReservationsService reservationsService) {
+        this.reservationsService = reservationsService;
     }
 
     @GetMapping

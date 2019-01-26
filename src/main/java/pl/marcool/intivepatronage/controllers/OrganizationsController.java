@@ -12,7 +12,7 @@ class OrganizationsController {
 
     private final OrganizationsService organizationsService;
 
-    private OrganizationsController(OrganizationsService organizationsService){
+    private OrganizationsController(OrganizationsService organizationsService) {
         this.organizationsService = organizationsService;
     }
 

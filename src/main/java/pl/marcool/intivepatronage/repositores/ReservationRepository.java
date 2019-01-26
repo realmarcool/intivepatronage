@@ -11,11 +11,10 @@ import java.util.List;
 public interface ReservationRepository extends CrudRepository<Reservation, String> {
     List<Reservation> findAll();
 
-    List<Reservation> findByConferenceRoomIdAndBeginDateBeforeAndEndDateAfter
-            (String conferenceRoomId, LocalDateTime date1, LocalDateTime date2);
+    List<Reservation> findByConferenceRoomIdAndBeginDateBeforeAndEndDateAfterAndIdIsNotContaining
+            (String conferenceRoomId, LocalDateTime date1, LocalDateTime date2, String id);
 
-    List<Reservation> findByConferenceRoomIdAndBeginDateAfterAndBeginDateBefore
-            (String conferenceRoomId, LocalDateTime date1, LocalDateTime date2);
-
+    List<Reservation> findByConferenceRoomIdAndBeginDateAfterAndBeginDateBeforeAndIdIsNotContaining
+            (String conferenceRoomId, LocalDateTime date1, LocalDateTime date2, String id);
 
 }
