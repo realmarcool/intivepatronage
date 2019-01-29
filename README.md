@@ -1,8 +1,7 @@
 Wykorzystano następujące narzędzia:
 
 - Java 11 jdk,
-- IntelliJ, 
-- Gradle 5,
+- IntelliJ,
 - Spring Boot 2.1.1,
 - Swagger
 
