@@ -16,5 +16,4 @@ public interface ReservationRepository extends CrudRepository<Reservation, Strin
 
     List<Reservation> findByConferenceRoomIdAndBeginDateAfterAndBeginDateBeforeAndIdIsNotContaining
             (String conferenceRoomId, LocalDateTime date1, LocalDateTime date2, String id);
-
 }
